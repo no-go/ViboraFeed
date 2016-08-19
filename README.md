@@ -1,6 +1,9 @@
 # ViboraFeed
 
-ViboraFeed is the Vibora Feed Reader of the http://vibora.de opensource blog homepage.
+![Logo](app/src/main/res/mipmap-mdpi/ic_launcher.png) ViboraFeed is the Vibora Feed Reader of the http://vibora.de opensource blog homepage.
+The Images in the screenshots are from testing-Feeds.
+
+Optional get a signed APK from here: [ViboraFeed.apk](https://github.com/no-go/ViboraFeed/blob/master/app/app-release.apk?raw=true)
 
 ## Seit Version 1.2 (quasi fertig)
 
@@ -63,7 +66,7 @@ Options-Menü der App
 
 ![Screenshot Feature 8](img/feature_options.jpg)
 
-Einstellungen der App
+Einstellungen der App (URL war nur zu Testzwecken anpassbar!)
 
 ![Screenshot Feature 9](img/feature_preferences.jpg)
 

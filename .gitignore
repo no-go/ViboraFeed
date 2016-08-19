@@ -45,3 +45,5 @@ captures/
 
 # Keystore files
 *.jks
+
+!app/app-release.apk
