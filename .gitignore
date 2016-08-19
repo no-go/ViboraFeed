@@ -1,3 +1,10 @@
+*.iml
+.gradle
+/.idea/libraries
+.DS_Store
+/build
+/captures
+
 # Built application files
 *.apk
 *.ap_

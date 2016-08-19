@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_delNotifies"
+        android:title="@string/delNotifies">
+    </item>
+
+    <item
+        android:id="@+id/action_readedFeeds"
+        android:title="@string/readedFeeds">
+    </item>
+
+    <item
+        android:id="@+id/action_delFeeds"
+        android:title="@string/delFeeds">
+    </item>
+
+    <item
+        android:id="@+id/action_preferences"
+        android:title="@string/preferences">
+    </item>
+</menu>

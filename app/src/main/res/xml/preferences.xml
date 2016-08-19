@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/preferences">
+
+        <ListPreference
+            android:defaultValue="10800"
+            android:entries="@array/rss_sec_names"
+            android:entryValues="@array/rss_sec_values"
+            android:key="rss_sec"
+            android:summary="@string/rss_sec_desc"
+            android:title="@string/rss_sec" />
+
+        <ListPreference
+            android:defaultValue="2"
+            android:entries="@array/notify_type"
+            android:entryValues="@array/notify_type_values"
+            android:key="notify_type"
+            android:summary="@string/notify_type_desc"
+            android:title="@string/notify_type_title" />
+
+        <ListPreference
+            android:defaultValue="#FF00FFFF"
+            android:entries="@array/notify_color"
+            android:entryValues="@array/notify_color_values"
+            android:key="notify_color"
+            android:summary="@string/notify_color_desc"
+            android:title="@string/notify_color_title" />
+
+    </PreferenceCategory>
+</PreferenceScreen>
