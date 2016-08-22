@@ -22,6 +22,7 @@ import java.util.Random;
  * zugreifen.
  */
 public class Alarm extends BroadcastReceiver {
+    private SharedPreferences _pref;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -30,14 +31,29 @@ public class Alarm extends BroadcastReceiver {
             @Override
             protected Void doInBackground(Context... contexts) {
                 Context ctx = contexts[0];
+                _pref = PreferenceManager.getDefaultSharedPreferences(ctx);
                 Refresher refresher = Refresher.ME(ctx);
+
                 if (! refresher.isOnline()) {
                     Log.w(ViboraApp.TAG, "Retry alarm in seconds: " + ViboraApp.Config.RETRYSEC_AFTER_OFFLINE);
                     ViboraApp.alarm.retry(ctx, ViboraApp.Config.RETRYSEC_AFTER_OFFLINE);
                     return null;
                 }
-                Document doc = refresher.getDoc();
-                refresher.insertToDb(doc);
+
+                String rssurl1 = ViboraApp.Source1.path;
+                int expunge1 = ViboraApp.Source1.expunge;
+
+                String rssurl2 = _pref.getString("rss_url", ViboraApp.Source2.path);
+                int expunge2 = ViboraApp.Source2.expunge;
+
+                refresher._newFeeds.clear();
+                Document doc = refresher.getDoc(rssurl1, expunge1);
+                refresher.insertToDb(doc,expunge1, ViboraApp.Source1.id);
+
+                doc = refresher.getDoc(rssurl2, expunge2);
+                refresher.insertToDb(doc,expunge2, ViboraApp.Source2.id);
+
+                refresher.sortFeeds();
                 if (refresher._newFeeds.size() > 0) {
 
                     Intent notificationIntent = new Intent(ctx, MainActivity.class);
@@ -84,9 +100,10 @@ public class Alarm extends BroadcastReceiver {
      * @param context the context
      */
     public void start(Context context) {
-        SharedPreferences mPref = PreferenceManager.getDefaultSharedPreferences(context);
+        _pref = PreferenceManager.getDefaultSharedPreferences(context);
+
         long refreshInterval = Long.parseLong(
-                mPref.getString("rss_sec", ViboraApp.Config.DEFAULT_rsssec)
+                _pref.getString("rss_sec", ViboraApp.Config.DEFAULT_rsssec)
         ) * 1000L;
 
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

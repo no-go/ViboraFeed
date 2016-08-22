@@ -44,6 +44,7 @@ public class FeedContract {
         public static final String COLUMN_Link = "feed_link";
         public static final String COLUMN_Body = "feed_body";
         public static final String COLUMN_Image = "feed_image";
+        public static final String COLUMN_Source = "feed_source";
         public static final String COLUMN_Deleted = "feed_deleted";
         public static final String COLUMN_Isnew = "feed_isnew";
     }
@@ -91,6 +92,7 @@ public class FeedContract {
                     Feeds.COLUMN_Link + TEXT_TYPE + COMMA_SEP +
                     Feeds.COLUMN_Body + TEXT_TYPE + COMMA_SEP +
                     Feeds.COLUMN_Image + IMAGE_TYPE + COMMA_SEP +
+                    Feeds.COLUMN_Source + INTEGER_TYPE + COMMA_SEP +
                     Feeds.COLUMN_Deleted + INTEGER_TYPE + COMMA_SEP +
                     Feeds.COLUMN_Isnew + INTEGER_TYPE + " )";
 
@@ -104,6 +106,7 @@ public class FeedContract {
             Feeds.COLUMN_Link,
             Feeds.COLUMN_Body,
             Feeds.COLUMN_Image,
+            Feeds.COLUMN_Source,
             Feeds.COLUMN_Deleted,
             Feeds.COLUMN_Isnew
     };

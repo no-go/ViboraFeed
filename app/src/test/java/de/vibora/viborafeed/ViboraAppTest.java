@@ -18,7 +18,7 @@ public class ViboraAppTest {
      */
     @Test
     public void testFeedUrl() throws Exception {
-        assertEquals("http://vibora.de/feed/", ViboraApp.Config.DEFAULT_rssurl);
+        assertEquals("http://vibora.de/feed/", ViboraApp.Source1.path);
     }
 
     @Test

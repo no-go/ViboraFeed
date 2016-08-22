@@ -6,10 +6,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -172,18 +170,36 @@ public class MainActivity extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
             Calendar c = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
 
+            // Vibora Feed
             Date date = new Date();
             c.setTime(date);
-            c.add(Calendar.DAY_OF_MONTH, -1 * ViboraApp.Config.DAYS_BEFORE_EXPUNGE);
-            // c.add(Calendar.HOUR, -12);
+            c.add(Calendar.DAY_OF_MONTH, -1 * ViboraApp.Source1.expunge);
             date = c.getTime();
             String dateStr = FeedContract.dbFriendlyDate(date);
+
             String where = FeedContract.Feeds.COLUMN_Date + "<? and "
-                    + FeedContract.Feeds.COLUMN_Deleted + "=?";
+                    + FeedContract.Feeds.COLUMN_Deleted + "=? and "
+                    + FeedContract.Feeds.COLUMN_Source + "=?";
             getContentResolver().delete(
                     FeedContentProvider.CONTENT_URI,
                     where,
-                    new String[]{dateStr, "1"}
+                    new String[]{dateStr, "1", ViboraApp.Source1.number}
+            );
+
+            // Feed, den man selbst einstellt
+            date = new Date();
+            c.setTime(date);
+            c.add(Calendar.DAY_OF_MONTH, -1 * ViboraApp.Source2.expunge);
+            date = c.getTime();
+            dateStr = FeedContract.dbFriendlyDate(date);
+
+            where = FeedContract.Feeds.COLUMN_Date + "<? and "
+                    + FeedContract.Feeds.COLUMN_Deleted + "=? and "
+                    + FeedContract.Feeds.COLUMN_Source + "=?";
+            getContentResolver().delete(
+                    FeedContentProvider.CONTENT_URI,
+                    where,
+                    new String[]{dateStr, "1", ViboraApp.Source2.number}
             );
             return null;
         }

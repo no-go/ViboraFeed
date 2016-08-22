@@ -4,11 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Handler;
-import android.os.StrictMode;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 /**
  * Der Einstiegspunkt des Launchers.
@@ -19,6 +15,24 @@ import android.util.Log;
  */
 public class ViboraApp extends Application {
 
+    public static class Source1 {
+        /**
+         * really delete old database entries (marked as deleted)
+         * older than {@value #expunge} days
+         */
+        public static final int expunge = 90;
+        public static final String number = "1";
+        public static final int id = 1;
+        public static final String path = "http://vibora.de/feed/";
+    }
+
+    public static class Source2 {
+        public static final int expunge = 3;
+        public static final String number = "2";
+        public static final int id = 2;
+        public static final String path = "http://www.wz.de/cmlink/wz-rss-uebersicht-1.516698";
+    }
+
     public static class Config {
         public static final String DEFAULT_rsssec = "10800";
         public static final String DEFAULT_notifyColor = "#FF00FFFF";
@@ -28,17 +42,7 @@ public class ViboraApp extends Application {
          * der hinter dem Wort {@value #DEFAULT_lastRssWord} abgeschnitten werden muss.
          */
         public static final String DEFAULT_lastRssWord = "weiterlesen";
-        /**
-         * Die App ist für diese URL gemacht: {@value #DEFAULT_rssurl}
-         * Ein Unit-Test testet das!!
-         */
-        public static final String DEFAULT_rssurl = "http://vibora.de/feed/";
 
-        /**
-         * really delete old database entries (marked as deleted)
-         * older than {@value #DAYS_BEFORE_EXPUNGE} days
-         */
-        public static final int DAYS_BEFORE_EXPUNGE = 90;
         /**
          * sets a static image size to {@value #MAX_IMG_WIDTH}
          */

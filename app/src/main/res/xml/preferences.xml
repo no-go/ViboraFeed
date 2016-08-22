@@ -3,6 +3,12 @@
     <PreferenceCategory
         android:title="@string/preferences">
 
+        <EditTextPreference
+            android:defaultValue="http://www.wz.de/cmlink/wz-rss-uebersicht-1.516698"
+            android:key="rss_url"
+            android:summary="@string/rss_url_desc"
+            android:title="@string/rss_url" />
+
         <ListPreference
             android:defaultValue="10800"
             android:entries="@array/rss_sec_names"

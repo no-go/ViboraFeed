@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Vibora-Feed</string>
-    <string name="rss_url">RSS URL (DEBUG)</string>
+    <string name="rss_url">Zusätzlicher Feed</string>
     <string name="rss_url_desc">Die http Angabe zum RSS 2.0 Feed</string>
     <string name="rss_sec">Synchronisation</string>
     <string name="rss_sec_desc">Check Feed alle &#8230; Minuten</string>
@@ -26,7 +26,7 @@
     <string name="destroyed">zerstört</string>
 
     <string name="rssUrlWrong">Der Feed hat eine fehlerhafte URL</string>
-    <string name="noConnection">Keine Verbindung zum Internet</string>
+    <string name="noConnection">Keine Verbindung zu dieser Seite oder Internet</string>
     <string name="newFeeds">Neue Feeds</string>
     <string name="reallyQuit">Willst du die Anwendung wirklich beenden?</string>
     <string name="responseStrange">URL Respose ist unerwartet:</string>

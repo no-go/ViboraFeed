@@ -14,6 +14,7 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -53,7 +54,6 @@ public class Refresher {
     private SharedPreferences _pref;
     private int _notifyColor;
     private int _notifyType;
-    private String _rssurl;
 
     /**
      * Dieses Array nimmt neue Feeds auf, um beim Erzeugen von Notifikations nicht
@@ -87,12 +87,11 @@ public class Refresher {
         _notifyType = Integer.parseInt(
                 _pref.getString("notify_type", ViboraApp.Config.DEFAULT_notifyType)
         );
-        _rssurl = _pref.getString("rss_url", ViboraApp.Config.DEFAULT_rssurl);
     }
 
     /**
      * Entscheidet, ob ein Feed neu ist.
-     * In ersten Schritt werden Feeds ignoriert, die DAYS_BEFORE_EXPUNGE überschreiten.
+     * In ersten Schritt werden Feeds ignoriert, die DEFAULT_expunge überschreiten.
      * Das ist wichtig, da sonst bereits aus der Datenbank entfernte Feeds als
      * neu erkannt werden. Im zweiten Schritt wird lediglich der Titel in der
      * Datenbank gesucht. Existiert dieser nicht, so wird true zurückgegeben.
@@ -101,15 +100,16 @@ public class Refresher {
      *
      * @param date  the date
      * @param title the title
+     * @param expunge anzahl an tagen, wie alt ein neuer feed max sein darf
      * @return the boolean
      */
-    public boolean isReallyFresh(Date date, String title) {
+    public boolean isReallyFresh(Date date, String title, int expunge) {
         boolean back = true;
         Date now = new Date();
         try {
             long diff = now.getTime() - date.getTime();
             long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-            if (days > ViboraApp.Config.DAYS_BEFORE_EXPUNGE) {
+            if (days > expunge) {
                 back = false;
             } else {
                 /// @todo same title could be possible ?!
@@ -168,20 +168,22 @@ public class Refresher {
      * Holt aus den Preferences das Date des letzten Refresh.
      * Beim Datum wird +0200 nach GMT entfernt und die Stundenzahl angepasst. Sollte
      * in den Preferences kein Datum sein,
-     * wird DAYS_BEFORE_EXPUNGE zur Erzeugung
+     * wird DEFAULT_expunge zur Erzeugung
      * eines Datums in der Vergangenheit genutzt.
      *
+     * @param rssurl quelle als http://..... angabe
+     * @param expunge anzahl an tagen, wie alt ein neuer feed max sein darf
      * @return a string with a 'good' HTTP Mod Time Request format
      */
-    public String ifModifiedSinceDate() {
+    public String ifModifiedSinceDate(String rssurl, int expunge) {
         Calendar c = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
 
         Date defaultDate = new Date();
         c.setTime(defaultDate);
         // Setting the default modified date to a date some days in the past (0 => 1970)
-        c.add(Calendar.DAY_OF_MONTH, -1 * ViboraApp.Config.DAYS_BEFORE_EXPUNGE);
+        c.add(Calendar.DAY_OF_MONTH, -1 * expunge);
         defaultDate = c.getTime();
-        Date lastUpdate = new Date(_pref.getLong("last_update", defaultDate.getTime()));
+        Date lastUpdate = new Date(_pref.getLong("last_update_"+rssurl, defaultDate.getTime()));
         c.setTime(lastUpdate);
 
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss", Locale.ENGLISH);
@@ -194,13 +196,14 @@ public class Refresher {
      * Methode sendet If-Modified-Since und wertet den Response Code aus.
      * Könnte false negativ sein, wenn 301 (dauerhaft umgezogen) kommt.
      *
-     * @param url the url with http://
+     * @param url the url
+     * @param expunge anzahl an tagen, wie alt ein neuer feed max sein darf
      * @return false, wenn HTTP_NOT_MODIFIED oder der Code nicht 200 ist
      * @throws Exception ausgelöst, wenn z.B. die url nicht stimmt
      */
-    public boolean newStuff(URL url) throws Exception {
+    public boolean newStuff(URL url, int expunge) throws Exception {
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        String now = ifModifiedSinceDate();
+        String now = ifModifiedSinceDate(url.toString(), expunge);
         Log.d(ViboraApp.TAG, "If-Modified-Since: " + now);
         conn.setRequestProperty("If-Modified-Since", now);
         int responseCode = conn.getResponseCode();
@@ -217,6 +220,7 @@ public class Refresher {
             return false;
         }
         if (responseCode != HttpURLConnection.HTTP_OK) {
+            error(url.toString(), _ctx.getString(R.string.responseStrange));
             Log.e(ViboraApp.TAG, _ctx.getString(R.string.responseStrange));
             return false;
         }
@@ -224,31 +228,34 @@ public class Refresher {
     }
 
     /**
-     * Holt Seite von _rssurl und legt diese in XML-Doc ab.
+     * Holt Seite von rssurl und legt diese in XML-Doc ab.
      * Die Methode setzt in den Preferences das Datum der letzten Änderung.
      *
+     * @param rssurl quelle als http://..... angabe
+     * @param expunge anzahl an tagen, wie alt ein neuer feed max sein darf
      * @return the doc
      */
-    public Document getDoc() {
+    public Document getDoc(String rssurl, int expunge) {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        _newFeeds.clear();
         try {
-            URL url = new URL(_rssurl);
+            URL url = new URL(rssurl);
             DocumentBuilder db = dbf.newDocumentBuilder();
-            if (! newStuff(url)) return null;
+            if (! newStuff(url, expunge)) return null;
             InputStream is = url.openStream();
             Document doc = db.parse(is);
             doc.getDocumentElement().normalize();
             SharedPreferences.Editor editor = _pref.edit();
-            editor.putLong("last_update", new Date().getTime());
+            editor.putLong("last_update_"+rssurl, new Date().getTime());
             editor.apply();
             return doc;
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (MalformedURLException e) {
             e.printStackTrace();
+            error(rssurl, _ctx.getString(R.string.rssUrlWrong));
             Log.e(ViboraApp.TAG, _ctx.getString(R.string.rssUrlWrong));
         } catch (Exception e) {
+            error(rssurl, _ctx.getString(R.string.noConnection));
             Log.e(ViboraApp.TAG, _ctx.getString(R.string.noConnection));
         }
         return null;
@@ -259,9 +266,11 @@ public class Refresher {
      * Die neuen Feeds werden auch in _newFeeds abgelegt. Das _newFeeds Array wird
      * so sortiert, dass die neusten Feeds bei id 0 zu finden sind.
      *
+     * @param expunge anzahl an tagen, wie alt ein neuer feed max sein darf
+     * @param sourceId aktuell ist 1 für vibora und 2 für das, was user eingestellt hat
      * @param doc the doc
      */
-    public void insertToDb(Document doc) {
+    public void insertToDb(Document doc, int expunge, int sourceId) {
         if (doc == null) return;
         NodeList nodeList = doc.getElementsByTagName("item");
         // put to database if not the same  -------------------------------------------------
@@ -275,7 +284,7 @@ public class Refresher {
                 String dateStr = FeedContract.extract(n, "pubDate");
                 Date date = FeedContract.rawToDate(dateStr);
 
-                if (isReallyFresh(date, title)) {
+                if (isReallyFresh(date, title, expunge)) {
                     ContentValues values = new ContentValues();
                     values.put(FeedContract.Feeds.COLUMN_Title, title);
                     values.put(FeedContract.Feeds.COLUMN_Date, FeedContract.dbFriendlyDate(date));
@@ -284,6 +293,7 @@ public class Refresher {
                     values.put(FeedContract.Feeds.COLUMN_Image, FeedContract.getBytes(
                             FeedContract.getImage(n)
                     ));
+                    values.put(FeedContract.Feeds.COLUMN_Source, sourceId);
                     values.put(FeedContract.Feeds.COLUMN_Deleted, 0);
                     values.put(FeedContract.Feeds.COLUMN_Isnew, 1);
 
@@ -297,20 +307,23 @@ public class Refresher {
                 }
             }
 
-            // elements: the last one is the oldest but we want the first one as the newest
-            Collections.sort(_newFeeds, new Comparator<ContentValues>() {
-                @Override
-                public int compare(ContentValues t1, ContentValues t2) {
-                    return t1.getAsString(
-                            FeedContract.Feeds.COLUMN_Date
-                    ).compareTo(t2.getAsString(
-                            FeedContract.Feeds.COLUMN_Date)
-                    );
-                }
-            });
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    public void sortFeeds() {
+        // elements: the last one is the oldest but we want the first one as the newest
+        Collections.sort(_newFeeds, new Comparator<ContentValues>() {
+            @Override
+            public int compare(ContentValues t1, ContentValues t2) {
+                return t1.getAsString(
+                        FeedContract.Feeds.COLUMN_Date
+                ).compareTo(t2.getAsString(
+                        FeedContract.Feeds.COLUMN_Date)
+                );
+            }
+        });
     }
 
     /**
@@ -338,6 +351,23 @@ public class Refresher {
             // make sound only 1x times
             if (sound != null) sound = null;
         }
+    }
+
+    private void error(String title, String msg) {
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(_ctx);
+        Bitmap largeIcon = BitmapFactory.decodeResource(_ctx.getResources(), R.mipmap.errorhint);
+        mBuilder.setContentTitle(title)
+                .setContentText(msg)
+                .setTicker(msg)
+                .setSmallIcon(R.drawable.logo_sw)
+                .setLargeIcon(largeIcon)
+                .setVibrate(new long[]{2000})
+                .setPriority(Notification.PRIORITY_HIGH);
+        Notification noti = mBuilder.build();
+        noti.flags |= Notification.FLAG_AUTO_CANCEL;
+        NotificationManager mNotifyMgr =
+                (NotificationManager) _ctx.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotifyMgr.notify(42, noti);
     }
 
     private void notify(ContentValues cv, PendingIntent pi, Uri sound, boolean isHeadUp) {

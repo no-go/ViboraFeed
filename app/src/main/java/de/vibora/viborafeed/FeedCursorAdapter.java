@@ -3,6 +3,7 @@ package de.vibora.viborafeed;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -62,11 +63,18 @@ public class FeedCursorAdapter extends CursorAdapter {
         );
         ImageView iv = (ImageView) view.findViewById(R.id.image);
         iv.setImageBitmap(bmp);
-        if (bmp != null)
-            iv.setPadding(0,10,10,0);
-        else
-            iv.setPadding(0,0,0,0);
-
+        if (bmp != null) {
+            iv.setPadding(0, 10, 10, 0);
+        } else {
+            int source = cursor.getInt(cursor.getColumnIndexOrThrow(FeedContract.Feeds.COLUMN_Source));
+            if (source == ViboraApp.Source1.id) {
+                Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
+                iv.setImageBitmap(largeIcon);
+                iv.setPadding(0, 10, 10, 0);
+            } else {
+                iv.setPadding(0, 0, 0, 0);
+            }
+        }
         int isNew = cursor.getInt(cursor.getColumnIndexOrThrow(FeedContract.Feeds.COLUMN_Isnew));
         if (isNew == 0) {
             int oldTxt = ContextCompat.getColor(context, R.color.colorOldText);
