@@ -30,7 +30,7 @@ public class ViboraApp extends Application {
         public static final int expunge = 3;
         public static final String number = "2";
         public static final int id = 2;
-        public static final String path = "http://www.wz.de/cmlink/wz-rss-uebersicht-1.516698";
+        public static final String path = "";
     }
 
     public static class Config {

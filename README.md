@@ -54,10 +54,6 @@ Andere Darstellung der Notifikation innerhalb der App
 
 ![Screenshot Feature 5](img/feature_inApp-Notifications.jpg)
 
-Ein nettes Icon für den App Launcher
-
-![Screenshot Feature 6](img/feature_launcher-icon.jpg)
-
 Jeder neue Feed bekommt eine eigene Notifikation
 
 ![Screenshot Feature 7](img/feature_notifications.jpg)
