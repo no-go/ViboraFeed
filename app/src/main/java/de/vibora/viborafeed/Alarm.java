@@ -50,7 +50,7 @@ public class Alarm extends BroadcastReceiver {
                 Document doc = refresher.getDoc(rssurl1, expunge1);
                 refresher.insertToDb(doc,expunge1, ViboraApp.Source1.id);
 
-                if (rssurl2 != "") {
+                if (!rssurl2.equals("")) {
                     doc = refresher.getDoc(rssurl2, expunge2);
                     refresher.insertToDb(doc, expunge2, ViboraApp.Source2.id);
                 }

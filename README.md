@@ -5,6 +5,8 @@ The Images in the screenshots are from testing-Feeds.
 
 Optional get a signed APK from here: [ViboraFeed.apk](https://github.com/no-go/ViboraFeed/blob/master/app/app-release.apk?raw=true)
 
+![Screenshots v1.5 beta](img/v15.jpg)
+
 ## Seit Version 1.2 (quasi fertig)
 
 Javadoc ist aus meiner Sicht hinreichend gefüllt. Außerdem werden bei gelesenen Feeds die Bilder auch ausgegraut.
