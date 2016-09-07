@@ -14,6 +14,7 @@ import android.preference.PreferenceManager;
  * @author Jochen Peters
  */
 public class ViboraApp extends Application {
+    public static boolean showAdditionalFeed = false;
 
     public static class Source1 {
         /**

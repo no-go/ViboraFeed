@@ -1,5 +1,6 @@
 package de.vibora.viborafeed;
 
+import android.app.Fragment;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
@@ -54,6 +55,19 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.action_delFeeds:
                 dbClear.execute(R.id.action_delFeeds);
+                break;
+            case R.id.action_additionalFeed:
+                if (item.isChecked()) {
+                    ViboraApp.showAdditionalFeed = false;
+                    item.setChecked(false);
+                    FeedListFragment fr = (FeedListFragment) getFragmentManager().findFragmentById(R.id.feedlist);
+                    fr.getLoaderManager().restartLoader(0, null, fr);
+                } else {
+                    ViboraApp.showAdditionalFeed = true;
+                    item.setChecked(true);
+                    FeedListFragment fr = (FeedListFragment) getFragmentManager().findFragmentById(R.id.feedlist);
+                    fr.getLoaderManager().restartLoader(0, null, fr);
+                }
                 break;
             default:
                 break;

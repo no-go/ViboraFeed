@@ -75,13 +75,25 @@ public class FeedListFragment extends ListFragment implements LoaderManager.Load
      */
     @Override
     public Loader<Cursor> onCreateLoader(int LoaderId, Bundle bundle) {
-        return new CursorLoader(
-                getActivity(),
-                FeedContentProvider.CONTENT_URI,
-                FeedContract.projection,
-                FeedContract.DEFAULT_SELECTION, FeedContract.DEFAULT_SELECTION_ARGS,
-                FeedContract.DEFAULT_SORTORDER
-        );
+        if (ViboraApp.showAdditionalFeed) {
+            return new CursorLoader(
+                    getActivity(),
+                    FeedContentProvider.CONTENT_URI,
+                    FeedContract.projection,
+                    FeedContract.DEFAULT_SELECTION_ADD,
+                    FeedContract.DEFAULT_SELECTION_ARGS_ADD,
+                    FeedContract.DEFAULT_SORTORDER
+            );
+        } else {
+            return new CursorLoader(
+                    getActivity(),
+                    FeedContentProvider.CONTENT_URI,
+                    FeedContract.projection,
+                    FeedContract.DEFAULT_SELECTION,
+                    FeedContract.DEFAULT_SELECTION_ARGS,
+                    FeedContract.DEFAULT_SORTORDER
+            );
+        }
     }
 
     @Override
