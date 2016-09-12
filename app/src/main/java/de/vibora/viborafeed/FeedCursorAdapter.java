@@ -58,21 +58,26 @@ public class FeedCursorAdapter extends CursorAdapter {
                 cursor.getColumnIndexOrThrow(FeedContract.Feeds.COLUMN_Body)
         )));
 
+        tt.setPadding(10, 20,  5, 0);
+        tb.setPadding(10,  0, 10, 0);
+
         Bitmap bmp = FeedContract.getImage(
                 cursor.getBlob(cursor.getColumnIndexOrThrow(FeedContract.Feeds.COLUMN_Image))
         );
         ImageView iv = (ImageView) view.findViewById(R.id.image);
         iv.setImageBitmap(bmp);
         if (bmp != null) {
-            iv.setPadding(0, 10, 10, 0);
+            iv.setPadding(20, 30, 10, 0);
         } else {
             int source = cursor.getInt(cursor.getColumnIndexOrThrow(FeedContract.Feeds.COLUMN_Source));
             if (source == ViboraApp.Source1.id) {
                 Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
                 iv.setImageBitmap(largeIcon);
-                iv.setPadding(0, 10, 10, 0);
+                iv.setPadding(20, 30, 10, 0);
             } else {
-                iv.setPadding(0, 0, 0, 0);
+                iv.setPadding( 0, 0, 0, 0);
+                tt.setPadding(10, 10,  5, 0);
+                tb.setPadding(10,  0, 10, 0);
             }
         }
         int isNew = cursor.getInt(cursor.getColumnIndexOrThrow(FeedContract.Feeds.COLUMN_Isnew));

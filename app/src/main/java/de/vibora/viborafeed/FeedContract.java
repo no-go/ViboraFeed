@@ -2,6 +2,11 @@ package de.vibora.viborafeed;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.Shader;
 import android.os.Build;
 import android.provider.BaseColumns;
 import android.text.Html;
@@ -55,6 +60,8 @@ public class FeedContract {
     private static final String DATE_TYPE = " DATETIME";
     private static final String IMAGE_TYPE = " BLOB";
     private static final String COMMA_SEP = ",";
+
+    public final static long MILLIS_PER_DAY = 24 * 60 * 60 * 1000L;
 
     /**
      * Die Datenbank will für DATETIME dieses Format {@value #DATABASE_DATETIME_FORMAT}
@@ -192,6 +199,10 @@ public class FeedContract {
                 FEEDRAW_DATETIME_FORMAT, Locale.ENGLISH
         );
         try {
+            if (feedRaw == null) {
+                Log.d(ViboraApp.TAG, "Feed Date is null! use date from now.");
+                return new Date();
+            }
             return formatIn.parse(feedRaw);
         } catch (ParseException e) {
             Log.d(ViboraApp.TAG, feedRaw + ": Feed Date parse error! use date from now.");
@@ -226,9 +237,20 @@ public class FeedContract {
      * @return Das Datum in sprachabhängigem Format für den Feed
      */
     public static String getDate(Date date) {
-        SimpleDateFormat formatOut = new SimpleDateFormat(
-                ViboraApp.getContextOfApplication().getString(R.string.dateForm), Locale.ENGLISH
-        );
+
+        boolean moreThanDay = Math.abs(date.getTime() - new Date().getTime()) > MILLIS_PER_DAY;
+        SimpleDateFormat formatOut;
+
+        if (moreThanDay) {
+            formatOut = new SimpleDateFormat(
+                    ViboraApp.getContextOfApplication().getString(R.string.dateForm2), Locale.ENGLISH
+            );
+        } else {
+            formatOut = new SimpleDateFormat(
+                    ViboraApp.getContextOfApplication().getString(R.string.dateForm), Locale.ENGLISH
+            );
+
+        }
         return formatOut.format(date);
     }
 
@@ -295,7 +317,25 @@ public class FeedContract {
         int newHeight = (int) (ration * width);
         byte[] imageAsBytes = FeedContract.getBytes(b);
         Bitmap bo = BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
-        return Bitmap.createScaledBitmap(bo, width, newHeight, false);
+        b = Bitmap.createScaledBitmap(bo, width, newHeight, false);
+
+        Bitmap output = Bitmap.createBitmap(
+                b.getWidth(),
+                b.getHeight(),
+                Bitmap.Config.ARGB_8888
+        );
+        Canvas canvas = new Canvas(output);
+
+        BitmapShader shader;
+        RectF rect;
+        shader = new BitmapShader(b, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setShader(shader);
+        rect = new RectF(0.0f, 0.0f, b.getWidth(), b.getHeight());
+        canvas.drawRoundRect(rect, 10f, 10f, paint);
+
+        return output;
     }
 
     /**

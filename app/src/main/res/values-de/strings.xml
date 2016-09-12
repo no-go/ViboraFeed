@@ -15,7 +15,8 @@
     <string name="delFeeds">Feedsammlung leeren</string>
     <string name="delDb">Feedsammlung zerstören (DEBUG)</string>
     <string name="noData">leer</string>
-    <string name="dateForm">dd.MM.yyyy HH:mm</string>
+    <string name="dateForm">HH:mm</string>
+    <string name="dateForm2">dd.MM.</string>
 
     <string name="open">in Browser öffnen</string>
     <string name="delete">löschen</string>

@@ -15,7 +15,8 @@
     <string name="delFeeds">delete all feeds</string>
     <string name="delDb">destroy all feeds (DEBUG)</string>
     <string name="noData">No Data</string>
-    <string name="dateForm">yyyy-MM-dd HH:mm</string>
+    <string name="dateForm">HH:mm</string>
+    <string name="dateForm2">MM/dd</string>
 
     <string name="open">open with browser</string>
     <string name="delete">delete</string>
