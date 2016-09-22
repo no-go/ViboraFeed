@@ -6,6 +6,7 @@
     <color name="colorTitle">#323232</color>
     <color name="colorDate">#d6d7d7</color>
     <color name="colorBody">#808080</color>
+    <color name="colorBackground">#ffffff</color>
 
     <color name="colorPrimary">#000080</color>
     <color name="colorPrimaryDark">#000080</color>

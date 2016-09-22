@@ -401,9 +401,7 @@ public class FeedContract {
                 is = new URL(path).openStream();
                 result = BitmapFactory.decodeStream(is);
                 is.close();
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    result = FeedContract.scale(result, ViboraApp.Config.MAX_IMG_WIDTH);
-                }
+                result = FeedContract.scale(result, ViboraApp.Config.MAX_IMG_WIDTH);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 
+import java.util.Calendar;
+
 /**
  * Der Einstiegspunkt des Launchers.
  * In der Applications-Klasse befinden sich auch die initalen
@@ -38,6 +40,9 @@ public class ViboraApp extends Application {
         public static final String DEFAULT_rsssec = "10800";
         public static final String DEFAULT_notifyColor = "#FF00FFFF";
         public static final String DEFAULT_notifyType = "2";
+        public static final int DEFAULT_NIGHT_START = 18;
+        public static final int DEFAULT_NIGHT_STOP = 6;
+
         /**
          * im Feed Text von Vibora ist leider ein total überflüssiger Inhalt enthalten,
          * der hinter dem Wort {@value #DEFAULT_lastRssWord} abgeschnitten werden muss.
@@ -68,7 +73,6 @@ public class ViboraApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         new PrefLoaderTask().execute();
         contextOfApplication = getApplicationContext();
         if (alarm == null) alarm = new Alarm();
@@ -84,7 +88,21 @@ public class ViboraApp extends Application {
         protected Void doInBackground(Void... params) {
             SharedPreferences mPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             mPreferences.contains("dummy");
+            if (!mPreferences.contains("nightmode_use_start")) {
+                mPreferences.edit().putInt("nightmode_use_start", Config.DEFAULT_NIGHT_START).apply();
+            }
+            if (!mPreferences.contains("nightmode_use_stop")) {
+                mPreferences.edit().putInt("nightmode_use_stop", Config.DEFAULT_NIGHT_STOP).apply();
+            }
             return null;
         }
+    }
+
+    public static boolean inTimeSpan(int startH, int stopH) {
+        int nowH = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        if (startH == stopH && startH == nowH) return true;
+        if (startH > stopH && (nowH <= stopH || nowH >= startH)) return true;
+        if (startH < stopH && nowH >= startH && nowH <= stopH) return true;
+        return false;
     }
 }

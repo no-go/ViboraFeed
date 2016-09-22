@@ -1,5 +1,9 @@
 package de.vibora.viborafeed;
 
+import android.app.UiModeManager;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
@@ -7,10 +11,39 @@ import android.preference.PreferenceFragment;
  * Wird zum Laden der in XML abgelegten Preferences genutzt.
  * Es wird im Layout der {@link PreferencesActivity} genutzt.
  */
-public class MyPreferenceFragment extends PreferenceFragment {
+public class MyPreferenceFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+    private UiModeManager umm;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
+        umm = (UiModeManager) getActivity().getSystemService(Context.UI_MODE_SERVICE);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+        if (s.equals("nightmode_use")) {
+            boolean night = sharedPreferences.getBoolean("nightmode_use", false);
+            int startH = sharedPreferences.getInt("nightmode_use_start", ViboraApp.Config.DEFAULT_NIGHT_START);
+            int stopH = sharedPreferences.getInt("nightmode_use_stop", ViboraApp.Config.DEFAULT_NIGHT_STOP);
+            if (night && ViboraApp.inTimeSpan(startH, stopH)) {
+                umm.setNightMode(UiModeManager.MODE_NIGHT_YES);
+            } else {
+                umm.setNightMode(UiModeManager.MODE_NIGHT_NO);
+            }
+        }
     }
 }

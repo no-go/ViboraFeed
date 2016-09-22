@@ -5,6 +5,20 @@ The Images in the screenshots are from testing-Feeds.
 
 Optional get a signed APK from here: [ViboraFeed.apk](https://github.com/no-go/ViboraFeed/blob/master/app/app-release.apk?raw=true)
 
+# Version 1.9
+
+Optional night mode added (black and red colors in a special timespan).
+
+![Screenshots v1.9](img/v19.jpg)
+
+## Version 1.8
+
+brighter colors
+
+## Version 1.7
+
+classic heise.de rss Security Feed does work. Image and Text content is more seperated.
+
 ## Version 1.6
 
 Ich musste leider einen Kompromiss eingehen: Die App soll weiterhin in der Lage sein einen vom User/Userin selbst gewählten Feed zu "empfangen". Allerdings sind die Vibora-Feeds nicht so aktuell wie z.B. die Tagesschau Feeds und daher erscheinen diese am Ende einer langen News-Liste. Daher habe ich einen "Hacken" ins Optionsmenü gemacht, mit dem man Beide Feed-Quellen zusammen darstellen kann. Das war notwendig, da ab Version 1.6 standardmäßig erstmal NUR die Feeds von Vibora gezeigt werden.

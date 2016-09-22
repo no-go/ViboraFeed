@@ -66,10 +66,10 @@ public class FeedCursorAdapter extends CursorAdapter {
         );
         ImageView iv = (ImageView) view.findViewById(R.id.image);
         iv.setImageBitmap(bmp);
+        int source = cursor.getInt(cursor.getColumnIndexOrThrow(FeedContract.Feeds.COLUMN_Source));
         if (bmp != null) {
             iv.setPadding(20, 30, 10, 0);
         } else {
-            int source = cursor.getInt(cursor.getColumnIndexOrThrow(FeedContract.Feeds.COLUMN_Source));
             if (source == ViboraApp.Source1.id) {
                 Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
                 iv.setImageBitmap(largeIcon);
@@ -86,14 +86,14 @@ public class FeedCursorAdapter extends CursorAdapter {
             tt.setTextColor(oldTxt);
             td.setTextColor(oldTxt);
             tb.setTextColor(oldTxt);
-            if (bmp != null) iv.setAlpha(0.3f);
+            iv.setAlpha(0.3f);
             view.setBackgroundColor(ContextCompat.getColor(context, R.color.colorOld));
         } else {
             tt.setTextColor(ContextCompat.getColor(context, R.color.colorTitle));
             td.setTextColor(ContextCompat.getColor(context, R.color.colorDate));
             tb.setTextColor(ContextCompat.getColor(context, R.color.colorBody));
-            if (bmp != null) iv.setAlpha(1.0f);
-            view.setBackgroundColor(Color.TRANSPARENT);
+            iv.setAlpha(1.0f);
+            view.setBackgroundColor(ContextCompat.getColor(context, R.color.colorBackground));
         }
     }
 }
