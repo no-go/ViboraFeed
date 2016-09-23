@@ -8,6 +8,7 @@ Optional get a signed APK from here: [ViboraFeed.apk](https://github.com/no-go/V
 # Version 1.9
 
 Optional night mode added (black and red colors in a special timespan).
+Landscape: Screen is splitted. A short click on a news item (left hand) opens a small Browser on the right side.
 
 ![Screenshots v1.9](img/v19.jpg)
 

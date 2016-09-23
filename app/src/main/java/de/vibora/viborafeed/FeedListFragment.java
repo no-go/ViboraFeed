@@ -52,6 +52,14 @@ public class FeedListFragment extends ListFragment implements LoaderManager.Load
         View  emptyView = getActivity().getLayoutInflater().inflate(R.layout.empty_view, null);
         ((ViewGroup)getListView().getParent()).addView(emptyView);
         getListView().setEmptyView(emptyView);
+        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Cursor c = (Cursor) adapter.getItem(position);
+                String link = c.getString(c.getColumnIndex(FeedContract.Feeds.COLUMN_Link));
+                ((MainActivity) getActivity()).setWebView(link);
+            }
+        });
     }
 
     @Override

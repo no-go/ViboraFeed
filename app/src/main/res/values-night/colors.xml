@@ -8,7 +8,7 @@
     <color name="colorBody">#bb0000</color>
     <color name="colorBackground">#000000</color>
 
-    <color name="colorPrimary">#202020</color>
+    <color name="colorPrimary">#101010</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#F04080</color>
 </resources>

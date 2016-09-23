@@ -1,10 +1,12 @@
 package de.vibora.viborafeed;
 
 import android.app.Application;
+import android.app.UiModeManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatDelegate;
 
 import java.util.Calendar;
 
@@ -17,6 +19,7 @@ import java.util.Calendar;
  */
 public class ViboraApp extends Application {
     public static boolean showAdditionalFeed = false;
+    private UiModeManager umm;
 
     public static class Source1 {
         /**
@@ -73,29 +76,32 @@ public class ViboraApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        new PrefLoaderTask().execute();
+        umm = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
         contextOfApplication = getApplicationContext();
+
+        SharedPreferences mPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        if (!mPreferences.contains("nightmode_use_start")) {
+            mPreferences.edit().putInt("nightmode_use_start", Config.DEFAULT_NIGHT_START).commit();
+        }
+        if (!mPreferences.contains("nightmode_use_stop")) {
+            mPreferences.edit().putInt("nightmode_use_stop", Config.DEFAULT_NIGHT_STOP).commit();
+        }
+        boolean night = mPreferences.getBoolean("nightmode_use", false);
+        int startH = mPreferences.getInt("nightmode_use_start", ViboraApp.Config.DEFAULT_NIGHT_START);
+        int stopH = mPreferences.getInt("nightmode_use_stop", ViboraApp.Config.DEFAULT_NIGHT_STOP);
+        if (night && ViboraApp.inTimeSpan(startH, stopH)) {
+            umm.setNightMode(UiModeManager.MODE_NIGHT_YES);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            umm.setNightMode(UiModeManager.MODE_NIGHT_NO);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
         if (alarm == null) alarm = new Alarm();
     }
 
     public static Context getContextOfApplication() {
         return contextOfApplication;
-    }
-
-    public class PrefLoaderTask extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            SharedPreferences mPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            mPreferences.contains("dummy");
-            if (!mPreferences.contains("nightmode_use_start")) {
-                mPreferences.edit().putInt("nightmode_use_start", Config.DEFAULT_NIGHT_START).apply();
-            }
-            if (!mPreferences.contains("nightmode_use_stop")) {
-                mPreferences.edit().putInt("nightmode_use_stop", Config.DEFAULT_NIGHT_STOP).apply();
-            }
-            return null;
-        }
     }
 
     public static boolean inTimeSpan(int startH, int stopH) {

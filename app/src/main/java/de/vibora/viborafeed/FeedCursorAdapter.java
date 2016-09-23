@@ -76,8 +76,8 @@ public class FeedCursorAdapter extends CursorAdapter {
                 iv.setPadding(20, 30, 10, 0);
             } else {
                 iv.setPadding( 0, 0, 0, 0);
-                tt.setPadding(10, 10,  5, 0);
-                tb.setPadding(10,  0, 10, 0);
+                tt.setPadding(20, 10,  5, 0);
+                tb.setPadding(20,  0, 10, 0);
             }
         }
         int isNew = cursor.getInt(cursor.getColumnIndexOrThrow(FeedContract.Feeds.COLUMN_Isnew));

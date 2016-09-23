@@ -3,9 +3,11 @@ package de.vibora.viborafeed;
 import android.app.UiModeManager;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import android.provider.Settings;
+import android.support.v7.app.AppCompatDelegate;
 
 /**
  * Wird zum Laden der in XML abgelegten Preferences genutzt.
@@ -41,8 +43,13 @@ public class MyPreferenceFragment extends PreferenceFragment implements SharedPr
             int stopH = sharedPreferences.getInt("nightmode_use_stop", ViboraApp.Config.DEFAULT_NIGHT_STOP);
             if (night && ViboraApp.inTimeSpan(startH, stopH)) {
                 umm.setNightMode(UiModeManager.MODE_NIGHT_YES);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             } else {
                 umm.setNightMode(UiModeManager.MODE_NIGHT_NO);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            }
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+                getActivity().recreate();
             }
         }
     }

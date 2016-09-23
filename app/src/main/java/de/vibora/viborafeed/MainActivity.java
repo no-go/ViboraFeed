@@ -1,23 +1,24 @@
 package de.vibora.viborafeed;
 
-import android.app.Fragment;
 import android.app.NotificationManager;
-import android.app.UiModeManager;
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -31,8 +32,8 @@ import java.util.TimeZone;
 public class MainActivity extends AppCompatActivity {
     public Context ctx;
     private BroadcastReceiver alarmReceiver;
-    private SharedPreferences mPreferences;
-    private UiModeManager umm;
+    private WebView webView;
+    private ProgressBar progressBar;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -100,8 +101,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d(ViboraApp.TAG, "onCreate");
         ctx = this;
         setContentView(R.layout.activity_main);
-        mPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        umm = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
         ViboraApp.alarm.restart(this);
         new DbExpunge().execute();
 
@@ -132,10 +131,37 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
+        webView = (WebView) findViewById(R.id.webView);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(getString(R.string.serviceHasNews));
         registerReceiver(alarmReceiver, filter);
+    }
+
+    public boolean setWebView(String url) {
+        if (webView == null) return false;
+        webView.setWebViewClient(new MyWebClient());
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setUseWideViewPort(true);
+        webView.loadUrl(url);
+        return true;
+    }
+
+    public class MyWebClient extends WebViewClient {
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            progressBar.setIndeterminate(true);
+            progressBar.setVisibility(View.VISIBLE);
+            super.onPageStarted(view, url, favicon);
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            progressBar.setIndeterminate(false);
+            progressBar.setVisibility(View.GONE);
+            super.onPageFinished(view, url);
+        }
     }
 
     @Override
@@ -155,14 +181,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         Log.d(ViboraApp.TAG, "onResume");
         ViboraApp.withGui = true;
-        boolean night = mPreferences.getBoolean("nightmode_use", false);
-        int startH = mPreferences.getInt("nightmode_use_start", ViboraApp.Config.DEFAULT_NIGHT_START);
-        int stopH = mPreferences.getInt("nightmode_use_stop", ViboraApp.Config.DEFAULT_NIGHT_STOP);
-        if (night && ViboraApp.inTimeSpan(startH, stopH)) {
-            umm.setNightMode(UiModeManager.MODE_NIGHT_YES);
-        } else {
-            umm.setNightMode(UiModeManager.MODE_NIGHT_NO);
-        }
         super.onResume();
     }
 
