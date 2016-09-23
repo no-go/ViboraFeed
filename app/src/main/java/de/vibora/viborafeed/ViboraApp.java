@@ -19,7 +19,6 @@ import java.util.Calendar;
  */
 public class ViboraApp extends Application {
     public static boolean showAdditionalFeed = false;
-    private UiModeManager umm;
 
     public static class Source1 {
         /**
@@ -76,7 +75,6 @@ public class ViboraApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        umm = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
         contextOfApplication = getApplicationContext();
 
         SharedPreferences mPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -85,16 +83,6 @@ public class ViboraApp extends Application {
         }
         if (!mPreferences.contains("nightmode_use_stop")) {
             mPreferences.edit().putInt("nightmode_use_stop", Config.DEFAULT_NIGHT_STOP).commit();
-        }
-        boolean night = mPreferences.getBoolean("nightmode_use", false);
-        int startH = mPreferences.getInt("nightmode_use_start", ViboraApp.Config.DEFAULT_NIGHT_START);
-        int stopH = mPreferences.getInt("nightmode_use_stop", ViboraApp.Config.DEFAULT_NIGHT_STOP);
-        if (night && ViboraApp.inTimeSpan(startH, stopH)) {
-            umm.setNightMode(UiModeManager.MODE_NIGHT_YES);
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            umm.setNightMode(UiModeManager.MODE_NIGHT_NO);
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
         if (alarm == null) alarm = new Alarm();

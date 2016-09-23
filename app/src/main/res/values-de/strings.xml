@@ -34,11 +34,14 @@
     <string name="waitOnNextSync">Warte auf nächste Synchronisation …</string>
 
     <string name="serviceHasNews">de.vibora.viborafeed.ALARM_HAS_NEWS</string>
-    <string name="nightmode">Nachtmodus</string>
+    <string name="nightmode">Nachtmodus (zuverlässig ab Android 6)</string>
     <string name="nightmode_summary">Stellt die App für eine Zeitspanne auf ein dunkles, nicht blendendes Design um</string>
-    <string name="nightmode_use">nutzen</string>
+    <string name="nightmode_use">ausprobieren</string>
     <string name="nightmode_use_start">von …:00 Uhr</string>
     <string name="nightmode_use_stop">bis …:59 Uhr</string>
+
+    <string name="blacklist">Blacklist (mit Komma trennen)</string>
+    <string name="blacklist_desc">neue Feeds werden ignoriert, sollten diese Worte vorkommen</string>
 
     <string-array name="rss_sec_names">
         <item>30 Minuten</item>

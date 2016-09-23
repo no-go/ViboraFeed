@@ -1,16 +1,21 @@
 package de.vibora.viborafeed;
 
 import android.app.NotificationManager;
+import android.app.UiModeManager;
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver alarmReceiver;
     private WebView webView;
     private ProgressBar progressBar;
+    private UiModeManager umm;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -101,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(ViboraApp.TAG, "onCreate");
         ctx = this;
         setContentView(R.layout.activity_main);
+        umm = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
         ViboraApp.alarm.restart(this);
         new DbExpunge().execute();
 
@@ -181,6 +188,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         Log.d(ViboraApp.TAG, "onResume");
         ViboraApp.withGui = true;
+
+        SharedPreferences mPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        boolean night = mPreferences.getBoolean("nightmode_use", false);
+        if (night) {
+            int startH = mPreferences.getInt("nightmode_use_start", ViboraApp.Config.DEFAULT_NIGHT_START);
+            int stopH = mPreferences.getInt("nightmode_use_stop", ViboraApp.Config.DEFAULT_NIGHT_STOP);
+            if (ViboraApp.inTimeSpan(startH, stopH) && umm.getNightMode() != UiModeManager.MODE_NIGHT_YES) {
+                umm.setNightMode(UiModeManager.MODE_NIGHT_YES);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            }
+            if (!ViboraApp.inTimeSpan(startH, stopH) && umm.getNightMode() != UiModeManager.MODE_NIGHT_NO) {
+                umm.setNightMode(UiModeManager.MODE_NIGHT_NO);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            }
+        } else {
+            if (umm.getNightMode() == UiModeManager.MODE_NIGHT_YES) {
+                umm.setNightMode(UiModeManager.MODE_NIGHT_NO);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            }
+        }
         super.onResume();
     }
 

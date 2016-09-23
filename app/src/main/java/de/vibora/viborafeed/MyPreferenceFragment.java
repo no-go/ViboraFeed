@@ -48,7 +48,7 @@ public class MyPreferenceFragment extends PreferenceFragment implements SharedPr
                 umm.setNightMode(UiModeManager.MODE_NIGHT_NO);
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
                 getActivity().recreate();
             }
         }

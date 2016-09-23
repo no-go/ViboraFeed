@@ -29,11 +29,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
@@ -272,17 +275,24 @@ public class Refresher {
      */
     public void insertToDb(Document doc, int expunge, int sourceId) {
         if (doc == null) return;
+
+        String[] blacklist = getBlacklist();
         NodeList nodeList = doc.getElementsByTagName("item");
         // put to database if not the same  -------------------------------------------------
         try {
             Node n;
             // run through item Tags
+            feediter:
             for (int i = 0; i < nodeList.getLength(); i++) {
                 n = nodeList.item(i);
                 String title = FeedContract.extract(n, "title");
                 String body = FeedContract.extract(n, "description");
                 String dateStr = FeedContract.extract(n, "pubDate");
                 Date date = FeedContract.rawToDate(dateStr);
+                for (String bl: blacklist) {
+                    if (body.contains(bl)) continue feediter;
+                    if (title.contains(bl)) continue feediter;
+                }
 
                 if (isReallyFresh(date, title, expunge)) {
                     ContentValues values = new ContentValues();
@@ -310,6 +320,11 @@ public class Refresher {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    public String[] getBlacklist() {
+        String nos = _pref.getString("blacklist", "");
+        return nos.split(",");
     }
 
     public void sortFeeds() {

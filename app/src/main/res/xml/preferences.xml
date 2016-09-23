@@ -9,6 +9,12 @@
             android:summary="@string/rss_url_desc"
             android:title="@string/rss_url" />
 
+        <EditTextPreference
+            android:defaultValue="DFB,ockey,Rennfahr,Boxwelt,edallie,NBA,EM,WM,Borussia,Fortuna,Basket,Tennis,Boxer,Trainer,VfC,Fußball,Wasserball,Handball,sport,Sport,FC ,Spieltag,Bundesliga,ennbahn,eltmeister,UEFA,League"
+            android:key="blacklist"
+            android:summary="@string/blacklist_desc"
+            android:title="@string/blacklist" />
+
         <ListPreference
             android:defaultValue="10800"
             android:entries="@array/rss_sec_names"
