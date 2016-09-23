@@ -43,6 +43,11 @@
     <string name="blacklist">Blacklist (mit Komma trennen)</string>
     <string name="blacklist_desc">neue Feeds werden ignoriert, sollten diese Worte vorkommen</string>
 
+    <string name="searching">Suche</string>
+    <string name="action_search">Suchen</string>
+    <string name="start_search">bitte Suchwort eingeben</string>
+    <string name="close_search">Suchefunktion schließt</string>
+
     <string-array name="rss_sec_names">
         <item>30 Minuten</item>
         <item>1 Stunde</item>

@@ -43,6 +43,12 @@
     <string name="blacklist">Blacklist (comma sperated)</string>
     <string name="blacklist_desc">new feeds will be ignored, if them consist these chars</string>
 
+    <string name="searching">searching</string>
+    <string name="action_search">search</string>
+    <string name="start_search">please enter keyword</string>
+    <string name="close_search">search function closed</string>
+
+
     <string-array name="rss_sec_names">
         <item>30 minutes</item>
         <item>1 hours</item>
