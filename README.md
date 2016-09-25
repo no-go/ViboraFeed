@@ -5,17 +5,21 @@ The Images in the screenshots are from testing-Feeds.
 
 Optional get a signed APK from here: [ViboraFeed.apk](https://github.com/no-go/ViboraFeed/blob/master/app/app-release.apk?raw=true)
 
-# Version 2.1
+## Version 2.1
 
 now it is possible to search in every (non deleted) feed (title and body) via a search function in the ActionBar.
 
 ![Screenshots v2.1](img/v21.jpg)
 
-# Version 2.0
+With Nexus S and Android 4.4.4 the nightmode comes by rotating the device. Search and landscape works, too.
+
+![on old Device](img/v21_old.jpg)
+
+## Version 2.0
 
 Change some bugs with night and landscape mode. Blacklist added to filter (new) feeds, if them have some buff word.
 
-# Version 1.9
+## Version 1.9
 
 Optional night mode added (black and red colors in a special timespan) - but works well only > Android 6.0.
 Landscape: Screen is splitted. A short click on a news item (left hand) opens a small Browser on the right side.
