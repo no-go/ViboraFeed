@@ -59,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 String msg = getString(R.string.searching) + " " + query;
+                ViboraApp.query = query;
+                FeedListFragment fr = (FeedListFragment) getFragmentManager().findFragmentById(R.id.feedlist);
+                fr.getLoaderManager().restartLoader(0, null, fr);
                 Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
                 return false;
             }
@@ -72,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
         MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
+                ViboraApp.query = "";
+                FeedListFragment fr = (FeedListFragment) getFragmentManager().findFragmentById(R.id.feedlist);
+                fr.getLoaderManager().restartLoader(0, null, fr);
                 Toast.makeText(getApplicationContext(), R.string.close_search, Toast.LENGTH_SHORT).show();
                 return true;
             }

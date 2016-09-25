@@ -83,6 +83,16 @@ public class FeedListFragment extends ListFragment implements LoaderManager.Load
      */
     @Override
     public Loader<Cursor> onCreateLoader(int LoaderId, Bundle bundle) {
+        if (!ViboraApp.query.equals("")) {
+            return new CursorLoader(
+                    getActivity(),
+                    FeedContentProvider.CONTENT_URI,
+                    FeedContract.projection,
+                    FeedContract.SELECTION_SEARCH,
+                    FeedContract.searchArgs(ViboraApp.query),
+                    FeedContract.DEFAULT_SORTORDER
+            );
+        }
         if (ViboraApp.showAdditionalFeed) {
             return new CursorLoader(
                     getActivity(),

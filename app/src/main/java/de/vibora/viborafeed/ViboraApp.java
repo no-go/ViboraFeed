@@ -19,6 +19,7 @@ import java.util.Calendar;
  */
 public class ViboraApp extends Application {
     public static boolean showAdditionalFeed = false;
+    public static String query = "";
 
     public static class Source1 {
         /**

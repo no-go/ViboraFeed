@@ -80,18 +80,13 @@ public class FeedContract {
      * Das DEFAULT_SORTORDER sollte nach Datum absteigend sortiert sein.
      */
     public static final String DEFAULT_SORTORDER = Feeds.COLUMN_Date +" DESC";
-    /**
-     * Standardmäßig sollen keine gelöschten Feeds geholt werden
-     */
+
     public static final String DEFAULT_SELECTION =
             Feeds.COLUMN_Deleted +"=? AND " + Feeds.COLUMN_Source + "=?";
-
-    public static final String DEFAULT_SELECTION_ADD = Feeds.COLUMN_Deleted +"=?";
-    /**
-     * Nicht gelöscht heisst, dass Argument für <tt>Feeds.Deleted</tt> ist =0
-     */
     public static final String[] DEFAULT_SELECTION_ARGS =
             {"0", ViboraApp.Source1.number.toString()};
+
+    public static final String DEFAULT_SELECTION_ADD = Feeds.COLUMN_Deleted +"=?";
     public static final String[] DEFAULT_SELECTION_ARGS_ADD = {"0"};
 
     // Useful SQL queries
@@ -122,6 +117,15 @@ public class FeedContract {
             Feeds.COLUMN_Deleted,
             Feeds.COLUMN_Isnew
     };
+
+    public static final String SELECTION_SEARCH =
+            Feeds.COLUMN_Deleted +"=? AND (" +
+                    Feeds.COLUMN_Title + " LIKE ? OR " +
+                    Feeds.COLUMN_Body + " LIKE ?)";
+
+    public static String[] searchArgs(String query) {
+        return new String[]{"0", "%"+query+"%", "%"+query+"%"};
+    }
 
     /**
      * generates a DB friendly date string.
