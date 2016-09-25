@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="de.vibora.viborafeed.MainActivity"
+    android:background="@color/colorBackground"
     android:weightSum="1">
 
     <fragment

@@ -31,7 +31,7 @@
     <string name="newFeeds">Neue Feeds</string>
     <string name="reallyQuit">Willst du die Anwendung wirklich beenden?</string>
     <string name="responseStrange">URL Respose ist unerwartet:</string>
-    <string name="waitOnNextSync">Warte auf nächste Synchronisation …</string>
+    <string name="waitOnNextSync">(noch) keine Feeds vorhanden …</string>
 
     <string name="serviceHasNews">de.vibora.viborafeed.ALARM_HAS_NEWS</string>
     <string name="nightmode">Nachtmodus (zuverlässig ab Android 6)</string>

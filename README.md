@@ -5,9 +5,15 @@ The Images in the screenshots are from testing-Feeds.
 
 Optional get a signed APK from here: [ViboraFeed.apk](https://github.com/no-go/ViboraFeed/blob/master/app/app-release.apk?raw=true)
 
+# Version 2.1
+
+now it is possible to search in every (non deleted) feed (title and body) via a search function in the ActionBar.
+
+![Screenshots v2.1](img/v21.jpg)
+
 # Version 2.0
 
-Change some bugs with night and landsace mode. Blacklist added to filter (new) feeds, if them have some buff word.
+Change some bugs with night and landscape mode. Blacklist added to filter (new) feeds, if them have some buff word.
 
 # Version 1.9
 

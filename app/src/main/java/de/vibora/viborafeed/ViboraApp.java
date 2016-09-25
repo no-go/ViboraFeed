@@ -45,6 +45,7 @@ public class ViboraApp extends Application {
         public static final String DEFAULT_notifyType = "2";
         public static final int DEFAULT_NIGHT_START = 18;
         public static final int DEFAULT_NIGHT_STOP = 6;
+        public static final String SEARCH_HINT_COLOR = "#FFAA00";
 
         /**
          * im Feed Text von Vibora ist leider ein total überflüssiger Inhalt enthalten,

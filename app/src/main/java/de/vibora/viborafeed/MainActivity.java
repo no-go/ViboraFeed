@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
-                Toast.makeText(getApplicationContext(), R.string.start_search, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getApplicationContext(), R.string.start_search, Toast.LENGTH_SHORT).show();
                 return true;
             }
         });

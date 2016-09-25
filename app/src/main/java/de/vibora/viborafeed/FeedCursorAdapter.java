@@ -1,11 +1,14 @@
 package de.vibora.viborafeed;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,9 +47,12 @@ public class FeedCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         TextView tt = (TextView) view.findViewById(R.id.feedTitle);
-        tt.setText(cursor.getString(
-                cursor.getColumnIndexOrThrow(FeedContract.Feeds.COLUMN_Title)
-        ));
+        String title = cursor.getString(cursor.getColumnIndexOrThrow(FeedContract.Feeds.COLUMN_Title));
+        if (!ViboraApp.query.equals("")) {
+            tt.setText(highlight(ViboraApp.query, title));
+        } else {
+            tt.setText(title);
+        }
 
         TextView td = (TextView) view.findViewById(R.id.feedDate);
         td.setText(FeedContract.getDate(cursor.getString(
@@ -54,9 +60,12 @@ public class FeedCursorAdapter extends CursorAdapter {
         )));
 
         TextView tb = (TextView) view.findViewById(R.id.feedBody);
-        tb.setText(FeedContract.removeHtml(cursor.getString(
-                cursor.getColumnIndexOrThrow(FeedContract.Feeds.COLUMN_Body)
-        )));
+        String body = FeedContract.removeHtml(cursor.getString(cursor.getColumnIndexOrThrow(FeedContract.Feeds.COLUMN_Body)));
+        if (!ViboraApp.query.equals("")) {
+            tb.setText(highlight(ViboraApp.query, body));
+        } else {
+            tb.setText(body);
+        }
 
         tt.setPadding(10, 20,  5, 0);
         tb.setPadding(10,  0, 10, 0);
@@ -95,5 +104,13 @@ public class FeedCursorAdapter extends CursorAdapter {
             iv.setAlpha(1.0f);
             view.setBackgroundColor(ContextCompat.getColor(context, R.color.colorBackground));
         }
+    }
+
+    public Spanned highlight(String key, String msg) {
+        msg = msg.replaceAll(
+                "((?i)"+key+")",
+                "<b><font color='"+ ViboraApp.Config.SEARCH_HINT_COLOR + "'>$1</font></b>"
+        );
+        return FeedContract.fromHtml(msg);
     }
 }
