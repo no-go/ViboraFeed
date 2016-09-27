@@ -274,7 +274,10 @@ public class Refresher {
      * @param doc the doc
      */
     public void insertToDb(Document doc, int expunge, int sourceId) {
-        if (doc == null) return;
+        if (doc == null) {
+            Log.d(ViboraApp.TAG, "doc is null - no insertToDb()");
+            return;
+        }
 
         String[] blacklist = getBlacklist();
         NodeList nodeList = doc.getElementsByTagName("item");
@@ -290,11 +293,19 @@ public class Refresher {
                 String dateStr = FeedContract.extract(n, "pubDate");
                 Date date = FeedContract.rawToDate(dateStr);
                 for (String bl: blacklist) {
-                    if (body.contains(bl)) continue feediter;
-                    if (title.contains(bl)) continue feediter;
+                    Log.d(ViboraApp.TAG, "Check Blacklist: " + bl);
+                    if (body.contains(bl)) {
+                        Log.d(ViboraApp.TAG, "in body");
+                        continue feediter;
+                    }
+                    if (title.contains(bl)) {
+                        Log.d(ViboraApp.TAG, "in title");
+                        continue feediter;
+                    }
                 }
-
+                Log.d(ViboraApp.TAG, "is fresh?");
                 if (isReallyFresh(date, title, expunge)) {
+                    Log.d(ViboraApp.TAG, "  yes");
                     ContentValues values = new ContentValues();
                     values.put(FeedContract.Feeds.COLUMN_Title, title);
                     values.put(FeedContract.Feeds.COLUMN_Date, FeedContract.dbFriendlyDate(date));
@@ -314,6 +325,8 @@ public class Refresher {
                         values.put(FeedContract.Feeds._ID, id);
                         _newFeeds.add(values);
                     }
+                } else {
+                    Log.d(ViboraApp.TAG, "  no");
                 }
             }
 
@@ -324,6 +337,7 @@ public class Refresher {
 
     public String[] getBlacklist() {
         String nos = _pref.getString("blacklist", "");
+        if (nos.equals("")) return new String[]{};
         return nos.split(",");
     }
 

@@ -5,6 +5,10 @@ The Images in the screenshots are from testing-Feeds.
 
 Optional get a signed APK from here: [ViboraFeed.apk](https://github.com/no-go/ViboraFeed/blob/master/app/app-release.apk?raw=true)
 
+## Version 2.2
+
+fix a stupid blacklist problem.
+
 ## Version 2.1
 
 now it is possible to search in every (non deleted) feed (title and body) via a search function in the ActionBar.
