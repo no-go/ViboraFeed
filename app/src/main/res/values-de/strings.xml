@@ -48,7 +48,7 @@
     <string name="close_search">Suchefunktion schließt</string>
 
     <string name="favorite">Mag ich!</string>
-    <string name="nofavorite">Mag ich nicht mehr</string>
+    <string name="nofavorite">Mag ich nicht mehr.</string>
 
     <string name="cleanup">Aufräumen</string>
     <string name="removeNonFav">Auto-Löschung</string>

@@ -275,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Dient zum beseitigen von gelöschten Feeds. Achtung! Wird nur gemacht,
+     * Dient zum Beseitigen von gelöschten Feeds. Achtung! Wird nur gemacht,
      * wenn man die App auch öffnet!
      */
     private class DbExpunge extends AsyncTask<Void, Void, Void> {

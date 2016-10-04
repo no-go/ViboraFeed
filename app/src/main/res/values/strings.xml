@@ -52,7 +52,7 @@
 
     <string name="cleanup">Clean Up</string>
     <string name="removeNonFav">Automatic Delete</string>
-    <string name="removeNonFav_summary">non favorite feeds will be forgotten after … days</string>
+    <string name="removeNonFav_summary">non favorite feeds will be deleted after … days</string>
 
     <string-array name="rss_sec_names">
         <item>30 minutes</item>

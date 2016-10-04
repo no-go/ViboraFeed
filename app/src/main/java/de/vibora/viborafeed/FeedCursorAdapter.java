@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.text.Spanned;
 import android.view.LayoutInflater;
@@ -17,10 +19,13 @@ import android.widget.TextView;
  * Der FeedCursorAdapter verknüpft den Daten(Bank)Cursor mit den Feldern eines Views.
  */
 public class FeedCursorAdapter extends CursorAdapter {
-
+    private Bitmap largeIcon;
+    private Drawable favoriteIcon;
 
     public FeedCursorAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
+        largeIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
+        favoriteIcon = ContextCompat.getDrawable(context, R.drawable.favorite);
     }
 
     @Override
@@ -77,7 +82,6 @@ public class FeedCursorAdapter extends CursorAdapter {
             iv.setPadding(20, 30, 10, 0);
         } else {
             if (source == ViboraApp.Source1.id) {
-                Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
                 iv.setImageBitmap(largeIcon);
                 iv.setPadding(20, 30, 10, 0);
             } else {
@@ -86,20 +90,29 @@ public class FeedCursorAdapter extends CursorAdapter {
                 tb.setPadding(20,  0, 10, 0);
             }
         }
-        int isNew = cursor.getInt(cursor.getColumnIndexOrThrow(FeedContract.Feeds.COLUMN_Flag));
-        if (isNew == 0) {
+        int hasFlag = cursor.getInt(cursor.getColumnIndexOrThrow(FeedContract.Feeds.COLUMN_Flag));
+        if (hasFlag == FeedContract.Flag.READED) {
             int oldTxt = ContextCompat.getColor(context, R.color.colorOldText);
             tt.setTextColor(oldTxt);
             td.setTextColor(oldTxt);
             tb.setTextColor(oldTxt);
             iv.setAlpha(0.3f);
             view.setBackgroundColor(ContextCompat.getColor(context, R.color.colorOld));
+            td.setBackground(null);
+        } else if (hasFlag == FeedContract.Flag.FAVORITE) {
+            tt.setTextColor(ContextCompat.getColor(context, R.color.colorTitle));
+            td.setTextColor(ContextCompat.getColor(context, R.color.colorDate));
+            tb.setTextColor(ContextCompat.getColor(context, R.color.colorBody));
+            iv.setAlpha(1.0f);
+            view.setBackgroundColor(ContextCompat.getColor(context, R.color.colorBackground));
+            td.setBackground(favoriteIcon);
         } else {
             tt.setTextColor(ContextCompat.getColor(context, R.color.colorTitle));
             td.setTextColor(ContextCompat.getColor(context, R.color.colorDate));
             tb.setTextColor(ContextCompat.getColor(context, R.color.colorBody));
             iv.setAlpha(1.0f);
             view.setBackgroundColor(ContextCompat.getColor(context, R.color.colorBackground));
+            td.setBackground(null);
         }
     }
 
