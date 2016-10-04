@@ -14,7 +14,6 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -29,14 +28,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Locale;
-import java.util.Set;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
@@ -315,8 +311,8 @@ public class Refresher {
                             FeedContract.getImage(n)
                     ));
                     values.put(FeedContract.Feeds.COLUMN_Source, sourceId);
-                    values.put(FeedContract.Feeds.COLUMN_Deleted, 0);
-                    values.put(FeedContract.Feeds.COLUMN_Isnew, 1);
+                    values.put(FeedContract.Feeds.COLUMN_Deleted, FeedContract.Flag.VISIBLE);
+                    values.put(FeedContract.Feeds.COLUMN_Flag, FeedContract.Flag.NEW);
 
                     Uri uri = _ctx.getContentResolver().insert(FeedContentProvider.CONTENT_URI, values);
 

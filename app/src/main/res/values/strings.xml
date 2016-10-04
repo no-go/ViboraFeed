@@ -47,6 +47,13 @@
     <string name="start_search">please enter keyword</string>
     <string name="close_search">search function closed</string>
 
+    <string name="favorite">favorite</string>
+    <string name="nofavorite">not my favorite anymore</string>
+
+    <string name="cleanup">Clean Up</string>
+    <string name="removeNonFav">Automatic Delete</string>
+    <string name="removeNonFav_summary">non favorite feeds will be forgotten after … days</string>
+
     <string-array name="rss_sec_names">
         <item>30 minutes</item>
         <item>1 hours</item>

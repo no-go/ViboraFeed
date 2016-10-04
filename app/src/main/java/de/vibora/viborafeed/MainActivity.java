@@ -10,7 +10,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.MenuItemCompat;
@@ -19,16 +18,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -264,11 +260,11 @@ public class MainActivity extends AppCompatActivity {
             ContentValues values = new ContentValues();
             switch (params[0]) {
                 case R.id.action_delFeeds:
-                    values.put(FeedContract.Feeds.COLUMN_Deleted, 1);
+                    values.put(FeedContract.Feeds.COLUMN_Deleted, FeedContract.Flag.DELETED);
                     getContentResolver().update(FeedContentProvider.CONTENT_URI, values, null, null);
                     break;
                 case R.id.action_readedFeeds:
-                    values.put(FeedContract.Feeds.COLUMN_Isnew, 0);
+                    values.put(FeedContract.Feeds.COLUMN_Flag, FeedContract.Flag.READED);
                     getContentResolver().update(FeedContentProvider.CONTENT_URI, values, null, null);
                     break;
                 default:
@@ -301,7 +297,7 @@ public class MainActivity extends AppCompatActivity {
             getContentResolver().delete(
                     FeedContentProvider.CONTENT_URI,
                     where,
-                    new String[]{dateStr, "1", ViboraApp.Source1.number}
+                    new String[]{dateStr, Integer.toString(FeedContract.Flag.DELETED), ViboraApp.Source1.number}
             );
 
             // Feed, den man selbst einstellt
@@ -317,7 +313,7 @@ public class MainActivity extends AppCompatActivity {
             getContentResolver().delete(
                     FeedContentProvider.CONTENT_URI,
                     where,
-                    new String[]{dateStr, "1", ViboraApp.Source2.number}
+                    new String[]{dateStr, Integer.toString(FeedContract.Flag.DELETED), ViboraApp.Source2.number}
             );
             return null;
         }

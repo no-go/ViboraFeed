@@ -51,7 +51,16 @@ public class FeedContract {
         public static final String COLUMN_Image = "feed_image";
         public static final String COLUMN_Source = "feed_source";
         public static final String COLUMN_Deleted = "feed_deleted";
-        public static final String COLUMN_Isnew = "feed_isnew";
+        public static final String COLUMN_Flag = "feed_isnew";
+    }
+
+    public static class Flag {
+        public static final int NEW = 1;
+        public static final int READED = 0;
+        public static final int FAVORITE = 2;
+
+        public static final int VISIBLE = 0;
+        public static final int DELETED = 1;
     }
 
     // Useful SQL query parts
@@ -84,10 +93,10 @@ public class FeedContract {
     public static final String DEFAULT_SELECTION =
             Feeds.COLUMN_Deleted +"=? AND " + Feeds.COLUMN_Source + "=?";
     public static final String[] DEFAULT_SELECTION_ARGS =
-            {"0", ViboraApp.Source1.number.toString()};
+            {Integer.toString(Flag.VISIBLE), ViboraApp.Source1.number.toString()};
 
     public static final String DEFAULT_SELECTION_ADD = Feeds.COLUMN_Deleted +"=?";
-    public static final String[] DEFAULT_SELECTION_ARGS_ADD = {"0"};
+    public static final String[] DEFAULT_SELECTION_ARGS_ADD = {Integer.toString(Flag.VISIBLE)};
 
     // Useful SQL queries
 
@@ -101,7 +110,7 @@ public class FeedContract {
                     Feeds.COLUMN_Image + IMAGE_TYPE + COMMA_SEP +
                     Feeds.COLUMN_Source + INTEGER_TYPE + COMMA_SEP +
                     Feeds.COLUMN_Deleted + INTEGER_TYPE + COMMA_SEP +
-                    Feeds.COLUMN_Isnew + INTEGER_TYPE + " )";
+                    Feeds.COLUMN_Flag + INTEGER_TYPE + " )";
 
     public static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + Feeds.TABLE_NAME;
@@ -115,7 +124,7 @@ public class FeedContract {
             Feeds.COLUMN_Image,
             Feeds.COLUMN_Source,
             Feeds.COLUMN_Deleted,
-            Feeds.COLUMN_Isnew
+            Feeds.COLUMN_Flag
     };
 
     public static final String SELECTION_SEARCH =
@@ -124,7 +133,7 @@ public class FeedContract {
                     Feeds.COLUMN_Body + " LIKE ?)";
 
     public static String[] searchArgs(String query) {
-        return new String[]{"0", "%"+query+"%", "%"+query+"%"};
+        return new String[]{Integer.toString(Flag.VISIBLE), "%"+query+"%", "%"+query+"%"};
     }
 
     /**

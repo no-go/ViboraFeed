@@ -1,13 +1,10 @@
 package de.vibora.viborafeed;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -89,7 +86,7 @@ public class FeedCursorAdapter extends CursorAdapter {
                 tb.setPadding(20,  0, 10, 0);
             }
         }
-        int isNew = cursor.getInt(cursor.getColumnIndexOrThrow(FeedContract.Feeds.COLUMN_Isnew));
+        int isNew = cursor.getInt(cursor.getColumnIndexOrThrow(FeedContract.Feeds.COLUMN_Flag));
         if (isNew == 0) {
             int oldTxt = ContextCompat.getColor(context, R.color.colorOldText);
             tt.setTextColor(oldTxt);

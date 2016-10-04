@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 /**
@@ -29,6 +30,17 @@ public class FeedListFragment extends ListFragment implements LoaderManager.Load
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
+
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+        Cursor c = (Cursor) adapter.getItem(info.position);
+
+        // first item!!
+        int flagVal = c.getInt(c.getColumnIndex(FeedContract.Feeds.COLUMN_Flag));
+        if (flagVal == FeedContract.Flag.FAVORITE) {
+            menu.add(R.string.nofavorite);
+        } else {
+            menu.add(R.string.favorite);
+        }
         MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.item_context, menu);
     }
@@ -134,6 +146,7 @@ public class FeedListFragment extends ListFragment implements LoaderManager.Load
             long id = info.id;
             Cursor c = (Cursor) adapter.getItem(info.position);
             Uri uri = Uri.parse(FeedContentProvider.CONTENT_URI + "/" + id);
+            int flagVal = c.getInt(c.getColumnIndex(FeedContract.Feeds.COLUMN_Flag));
             ContentValues values = new ContentValues();
             String link, title;
 
@@ -145,23 +158,32 @@ public class FeedListFragment extends ListFragment implements LoaderManager.Load
                     return null;
 
                 case R.id.action_readedFeed:
-                    int oldVal = c.getInt(c.getColumnIndex(FeedContract.Feeds.COLUMN_Isnew));
-                    if (oldVal == 1) {
-                        values.put(FeedContract.Feeds.COLUMN_Isnew, 0);
+
+                    if (flagVal == FeedContract.Flag.NEW) {
+                        values.put(FeedContract.Feeds.COLUMN_Flag, FeedContract.Flag.READED);
                     } else {
-                        values.put(FeedContract.Feeds.COLUMN_Isnew, 1);
+                        values.put(FeedContract.Feeds.COLUMN_Flag, FeedContract.Flag.NEW);
                     }
                     getActivity().getContentResolver().update(uri, values, null, null);
                     return null;
 
                 case R.id.action_deleteFeed:
                     title = c.getString(c.getColumnIndex(FeedContract.Feeds.COLUMN_Title));
-                    values.put(FeedContract.Feeds.COLUMN_Deleted, 1);
+                    values.put(FeedContract.Feeds.COLUMN_Deleted, FeedContract.Flag.DELETED);
                     getActivity().getContentResolver().update(uri, values, null, null);
                     return title + "\n" + getString(R.string.deleted);
 
-                    default:
-                        return null;
+                case 0: // first item!!
+                    if (flagVal == FeedContract.Flag.FAVORITE) {
+                        values.put(FeedContract.Feeds.COLUMN_Flag, FeedContract.Flag.NEW);
+                    } else {
+                        values.put(FeedContract.Feeds.COLUMN_Flag, FeedContract.Flag.FAVORITE);
+                    }
+                    getActivity().getContentResolver().update(uri, values, null, null);
+                    return null;
+
+                default:
+                    return null;
             }
         }
 

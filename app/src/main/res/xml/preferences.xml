@@ -9,12 +9,6 @@
             android:summary="@string/rss_url_desc"
             android:title="@string/rss_url" />
 
-        <EditTextPreference
-            android:defaultValue="DFB,ockey,Rennfahr,Boxwelt,edallie,NBA,EM,WM,Borussia,Fortuna,Basket,Tennis,Boxer,Trainer,VfC,Fußball,Wasserball,Handball,sport,Sport,FC ,Spieltag,Bundesliga,ennbahn,eltmeister,UEFA,League"
-            android:key="blacklist"
-            android:summary="@string/blacklist_desc"
-            android:title="@string/blacklist" />
-
         <ListPreference
             android:defaultValue="10800"
             android:entries="@array/rss_sec_names"
@@ -38,6 +32,24 @@
             android:key="notify_color"
             android:summary="@string/notify_color_desc"
             android:title="@string/notify_color_title" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/cleanup" >
+
+        <de.vibora.viborafeed.IntEditPreference
+            android:key="autodelete"
+            android:title="@string/removeNonFav"
+            android:summary="@string/removeNonFav_summary"
+            android:numeric="integer"
+            android:maxLength="2" />
+
+        <EditTextPreference
+            android:defaultValue="DEL,enalty,pielfeld,DFB,ockey,Rennfahr,Boxwelt,edallie,NBA,EM,WM,Borussia,Fortuna,Basket,Tennis,Boxer,Trainer,VfC,Fußball,Wasserball,Handball,sport,Sport,FC ,Spieltag,Bundesliga,ennbahn,eltmeister,UEFA,League"
+            android:key="blacklist"
+            android:summary="@string/blacklist_desc"
+            android:title="@string/blacklist" />
 
     </PreferenceCategory>
 
