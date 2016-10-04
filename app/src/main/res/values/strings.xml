@@ -22,14 +22,13 @@
     <string name="delete">delete</string>
     <string name="destroy">destroy (DEBUG)</string>
 
-    <string name="readed">readed</string>
+    <string name="no_readed">(un)readed</string>
     <string name="deleted">deleted</string>
     <string name="destroyed">destroyed</string>
 
     <string name="rssUrlWrong">Your feed has a wrong URL</string>
     <string name="noConnection">no connection to site or internet</string>
     <string name="newFeeds">New feeds</string>
-    <string name="reallyQuit">Do you really want to quit?</string>
     <string name="responseStrange">URL Respose is strange:</string>
     <string name="waitOnNextSync">there are (still) no feeds …</string>
 

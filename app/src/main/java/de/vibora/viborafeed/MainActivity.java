@@ -322,17 +322,4 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
     }
-
-    /**
-     * Macht einen Dialog, wenn man die App verlassen will.
-     */
-    @Override
-    public void onBackPressed() {
-        QuitDialogFragment dialog = new QuitDialogFragment();
-        dialog.show(getSupportFragmentManager(), "Dialog");
-    }
-
-    public void onUserExit() {
-        super.onBackPressed();
-    }
 }

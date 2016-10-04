@@ -6,7 +6,7 @@
         android:title="@string/open" />
     <item
         android:id="@+id/action_readedFeed"
-        android:title="@string/readed" />
+        android:title="@string/no_readed" />
     <item
         android:id="@+id/action_deleteFeed"
         android:title="@string/delete" />

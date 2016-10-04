@@ -22,14 +22,13 @@
     <string name="delete">löschen</string>
     <string name="destroy">zerstören (DEBUG)</string>
 
-    <string name="readed">gelesen</string>
+    <string name="no_readed">(un)gelesen</string>
     <string name="deleted">gelöscht</string>
     <string name="destroyed">zerstört</string>
 
     <string name="rssUrlWrong">Der Feed hat eine fehlerhafte URL</string>
     <string name="noConnection">Keine Verbindung zu dieser Seite oder Internet</string>
     <string name="newFeeds">Neue Feeds</string>
-    <string name="reallyQuit">Willst du die Anwendung wirklich beenden?</string>
     <string name="responseStrange">URL Respose ist unerwartet:</string>
     <string name="waitOnNextSync">(noch) keine Feeds vorhanden …</string>
 

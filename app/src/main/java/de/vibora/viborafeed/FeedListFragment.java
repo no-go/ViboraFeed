@@ -145,7 +145,12 @@ public class FeedListFragment extends ListFragment implements LoaderManager.Load
                     return null;
 
                 case R.id.action_readedFeed:
-                    values.put(FeedContract.Feeds.COLUMN_Isnew, 0);
+                    int oldVal = c.getInt(c.getColumnIndex(FeedContract.Feeds.COLUMN_Isnew));
+                    if (oldVal == 1) {
+                        values.put(FeedContract.Feeds.COLUMN_Isnew, 0);
+                    } else {
+                        values.put(FeedContract.Feeds.COLUMN_Isnew, 1);
+                    }
                     getActivity().getContentResolver().update(uri, values, null, null);
                     return null;
 
