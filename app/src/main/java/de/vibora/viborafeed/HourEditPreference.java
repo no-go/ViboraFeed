@@ -4,17 +4,17 @@ import android.content.Context;
 import android.preference.EditTextPreference;
 import android.util.AttributeSet;
 
-public class IntEditPreference extends EditTextPreference {
+public class HourEditPreference extends EditTextPreference {
 
-    public IntEditPreference(Context context) {
+    public HourEditPreference(Context context) {
         super(context);
     }
 
-    public IntEditPreference(Context context, AttributeSet attrs) {
+    public HourEditPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public IntEditPreference(Context context, AttributeSet attrs, int defStyle) {
+    public HourEditPreference(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -27,7 +27,7 @@ public class IntEditPreference extends EditTextPreference {
     protected boolean persistString(String value) {
         if (value.equals("")) value="0";
         int val = Integer.valueOf(value);
-        if (val < 0) val = 0;
+        if (val > 23 || val < 0) val = 0;
         return persistInt(val);
     }
 }

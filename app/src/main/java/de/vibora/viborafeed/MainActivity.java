@@ -147,8 +147,7 @@ public class MainActivity extends AppCompatActivity {
         ctx = this;
         setContentView(R.layout.activity_main);
         umm = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
-        ViboraApp.alarm.restart(this);
-        new DbExpunge().execute();
+        ViboraApp.alarm.restart(this);;
 
         try {
             ActionBar ab = getSupportActionBar();
@@ -227,6 +226,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         Log.d(ViboraApp.TAG, "onResume");
         ViboraApp.withGui = true;
+        new DbExpunge().execute();
 
         SharedPreferences mPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         boolean night = mPreferences.getBoolean("nightmode_use", false);
@@ -317,6 +317,39 @@ public class MainActivity extends AppCompatActivity {
                     where,
                     new String[]{dateStr, Integer.toString(FeedContract.Flag.DELETED), ViboraApp.Source2.number}
             );
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            new AutoDelete().execute();
+        }
+    }
+
+    private class AutoDelete extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            Calendar c = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+            SharedPreferences mPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            int autodeleteDays = mPreferences.getInt("autodelete", 0);
+            if (autodeleteDays < 1) return null;
+
+            Date date = new Date();
+            c.setTime(date);
+            c.add(Calendar.DAY_OF_MONTH, -1 * autodeleteDays);
+            date = c.getTime();
+            String dateStr = FeedContract.dbFriendlyDate(date);
+
+            String where = FeedContract.Feeds.COLUMN_Date + "<? and "
+                    + FeedContract.Feeds.COLUMN_Flag + "<> ?";
+            getContentResolver().delete(
+                    FeedContentProvider.CONTENT_URI,
+                    where,
+                    new String[]{dateStr, Integer.toString(FeedContract.Flag.FAVORITE)}
+            );
+
             return null;
         }
     }

@@ -62,13 +62,13 @@
             android:summary="@string/nightmode_summary"
             android:title="@string/nightmode_use" />
 
-        <de.vibora.viborafeed.IntEditPreference
+        <de.vibora.viborafeed.HourEditPreference
             android:key="nightmode_use_start"
             android:title="@string/nightmode_use_start"
             android:numeric="integer"
             android:maxLength="2" />
 
-        <de.vibora.viborafeed.IntEditPreference
+        <de.vibora.viborafeed.HourEditPreference
             android:key="nightmode_use_stop"
             android:title="@string/nightmode_use_stop"
             android:numeric="integer"
