@@ -148,7 +148,7 @@ public class FeedListFragment extends ListFragment implements LoaderManager.Load
             Uri uri = Uri.parse(FeedContentProvider.CONTENT_URI + "/" + id);
             int flagVal = c.getInt(c.getColumnIndex(FeedContract.Feeds.COLUMN_Flag));
             ContentValues values = new ContentValues();
-            String link, title;
+            String link, title, body;
 
             switch (item.getItemId()) {
                 case R.id.action_openFeed:
@@ -172,6 +172,23 @@ public class FeedListFragment extends ListFragment implements LoaderManager.Load
                     values.put(FeedContract.Feeds.COLUMN_Deleted, FeedContract.Flag.DELETED);
                     getActivity().getContentResolver().update(uri, values, null, null);
                     return title + "\n" + getString(R.string.deleted);
+
+                case R.id.action_share:
+                    title = c.getString(c.getColumnIndex(FeedContract.Feeds.COLUMN_Title));
+                    body = c.getString(c.getColumnIndex(FeedContract.Feeds.COLUMN_Body));
+
+                    title = FeedContract.removeHtml(title);
+                    body = FeedContract.removeHtml(body);
+                    body = title.toUpperCase() +
+                            "\n" + body + "\n" +
+                            c.getString(c.getColumnIndex(FeedContract.Feeds.COLUMN_Link));
+
+                    Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                    sharingIntent.setType("text/plain");
+                    sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, title);
+                    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, body);
+                    startActivity(Intent.createChooser(sharingIntent, getString(R.string.share)));
+                    return null;
 
                 case 0: // first item!!
                     if (flagVal == FeedContract.Flag.FAVORITE) {

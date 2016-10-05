@@ -5,6 +5,13 @@ The Images in the screenshots are from testing-Feeds.
 
 Optional get a signed APK from here: [ViboraFeed.apk](https://github.com/no-go/ViboraFeed/blob/master/app/app-release.apk?raw=true)
 
+## Version 2.3
+
+- Share Feeds (context menu)
+- mark and unmark Feed as "read"
+- mark Feed as "Favorite" (these Feeds will not be deleted via "delete all" or "auto delete")
+- Preferences: if the Feed is older then ... days (not 0), it will be (auto) deleted
+
 ## Version 2.2
 
 fix a stupid blacklist problem.

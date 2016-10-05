@@ -54,6 +54,8 @@
     <string name="removeNonFav">Auto-Löschung</string>
     <string name="removeNonFav_summary">Feeds, die du nicht magst, werden nach … Tagen gelöscht</string>
 
+    <string name="share">Teilen mit …</string>
+
     <string-array name="rss_sec_names">
         <item>30 Minuten</item>
         <item>1 Stunde</item>

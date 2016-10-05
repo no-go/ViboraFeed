@@ -344,8 +344,13 @@ public class MainActivity extends AppCompatActivity {
 
             String where = FeedContract.Feeds.COLUMN_Date + "<? and "
                     + FeedContract.Feeds.COLUMN_Flag + "<> ?";
-            getContentResolver().delete(
+
+            ContentValues values = new ContentValues();
+            values.put(FeedContract.Feeds.COLUMN_Deleted, FeedContract.Flag.DELETED);
+
+            getContentResolver().update(
                     FeedContentProvider.CONTENT_URI,
+                    values,
                     where,
                     new String[]{dateStr, Integer.toString(FeedContract.Flag.FAVORITE)}
             );
