@@ -258,14 +258,16 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Integer... params) {
             ContentValues values = new ContentValues();
+            String sel = FeedContract.Feeds.COLUMN_Flag + "<> ?";
+            String[] selArgs = {Integer.toString(FeedContract.Flag.FAVORITE)};
             switch (params[0]) {
                 case R.id.action_delFeeds:
                     values.put(FeedContract.Feeds.COLUMN_Deleted, FeedContract.Flag.DELETED);
-                    getContentResolver().update(FeedContentProvider.CONTENT_URI, values, null, null);
+                    getContentResolver().update(FeedContentProvider.CONTENT_URI, values, sel, selArgs);
                     break;
                 case R.id.action_readedFeeds:
                     values.put(FeedContract.Feeds.COLUMN_Flag, FeedContract.Flag.READED);
-                    getContentResolver().update(FeedContentProvider.CONTENT_URI, values, null, null);
+                    getContentResolver().update(FeedContentProvider.CONTENT_URI, values, sel, selArgs);
                     break;
                 default:
                     break;
