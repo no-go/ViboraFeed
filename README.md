@@ -5,6 +5,8 @@ The Images in the screenshots are from testing-Feeds.
 
 Optional get a signed APK from here: [ViboraFeed.apk](https://github.com/no-go/ViboraFeed/blob/master/app/app-release.apk?raw=true)
 
+[Flattr This](https://flattr.com/thing/5194982)
+
 ## Version 2.3
 
 - Share Feeds (context menu)
