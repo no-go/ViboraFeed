@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
@@ -35,6 +36,11 @@ public class Alarm extends BroadcastReceiver {
                 Refresher refresher = Refresher.ME(ctx);
 
                 if (! refresher.isOnline()) {
+                    if (BuildConfig.DEBUG)
+                        refresher.error(
+                                "not Online",
+                                "Retry alarm in seconds: " + ViboraApp.Config.RETRYSEC_AFTER_OFFLINE
+                        );
                     Log.w(ViboraApp.TAG, "Retry alarm in seconds: " + ViboraApp.Config.RETRYSEC_AFTER_OFFLINE);
                     ViboraApp.alarm.retry(ctx, ViboraApp.Config.RETRYSEC_AFTER_OFFLINE);
                     return null;
@@ -123,6 +129,9 @@ public class Alarm extends BroadcastReceiver {
                 refreshInterval + mod,
                 pi
         );
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Log.d(ViboraApp.TAG, "Alarm started. " + Long.toString(am.getNextAlarmClock().getTriggerTime()));
+        }
     }
 
     /**
@@ -135,6 +144,9 @@ public class Alarm extends BroadcastReceiver {
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         am.cancel(pi);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Log.d(ViboraApp.TAG, "Alarm stopped. " + Long.toString(am.getNextAlarmClock().getTriggerTime()));
+        }
     }
 
     /**

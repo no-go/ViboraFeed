@@ -215,6 +215,9 @@ public class Refresher {
         conn.getInputStream().close();
 
         Log.d(ViboraApp.TAG, "Response Code: " + Integer.toString(responseCode));
+        if (BuildConfig.DEBUG) {
+            error(Integer.toString(responseCode), "if modified since " + now);
+        }
         if (responseCode == HttpURLConnection.HTTP_NOT_MODIFIED) {
             return false;
         }
@@ -378,7 +381,7 @@ public class Refresher {
         }
     }
 
-    private void error(String title, String msg) {
+    public void error(String title, String msg) {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(_ctx);
         Bitmap largeIcon = BitmapFactory.decodeResource(_ctx.getResources(), R.mipmap.errorhint);
         mBuilder.setContentTitle(title)

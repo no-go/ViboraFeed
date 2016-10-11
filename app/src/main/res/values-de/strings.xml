@@ -57,6 +57,7 @@
     <string name="share">Teilen mit …</string>
 
     <string-array name="rss_sec_names">
+        <item>1 min</item>
         <item>30 Minuten</item>
         <item>1 Stunde</item>
         <item>3 Stunden</item>
@@ -64,6 +65,7 @@
     </string-array>
 
     <string-array name="rss_sec_values">
+        <item>60</item>
         <item>1800</item>
         <item>3600</item>
         <item>10800</item>

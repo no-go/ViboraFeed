@@ -1,5 +1,6 @@
 package de.vibora.viborafeed;
 
+import android.app.AlarmManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
