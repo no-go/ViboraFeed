@@ -27,6 +27,7 @@ public class Alarm extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        final boolean isRetry = intent.getBooleanExtra("isRetry", false);
 
         AsyncTask<Context, Void, Void> asyncTask = new AsyncTask<Context, Void, Void>() {
             @Override
@@ -35,12 +36,18 @@ public class Alarm extends BroadcastReceiver {
                 _pref = PreferenceManager.getDefaultSharedPreferences(ctx);
                 Refresher refresher = Refresher.ME(ctx);
 
-                if (! refresher.isOnline()) {
-                    if (BuildConfig.DEBUG)
+                if (refresher.isOnline()) {
+                    if (isRetry) start(ctx);
+                    if (BuildConfig.DEBUG) {
+                        refresher.error("Online again!", "repeating alarm set");
+                    }
+                } else {
+                    if (BuildConfig.DEBUG) {
                         refresher.error(
                                 "not Online",
                                 "Retry alarm in seconds: " + ViboraApp.Config.RETRYSEC_AFTER_OFFLINE
                         );
+                    }
                     Log.w(ViboraApp.TAG, "Retry alarm in seconds: " + ViboraApp.Config.RETRYSEC_AFTER_OFFLINE);
                     ViboraApp.alarm.retry(ctx, ViboraApp.Config.RETRYSEC_AFTER_OFFLINE);
                     return null;
@@ -95,6 +102,7 @@ public class Alarm extends BroadcastReceiver {
     public void retry(Context context, long sec) {
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent(context, Alarm.class);
+        i.putExtra("isRetry", true);
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
         am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + sec * 1000L, pi);
     }

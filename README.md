@@ -7,6 +7,10 @@ Optional get a signed APK from here: [ViboraFeed.apk](https://github.com/no-go/V
 
 [Flattr This](https://flattr.com/thing/5194982)
 
+## Version 2.4
+
+Bugfix: there was only 1 refresh after going online after "Flightmode" and not every 30min ... 6 hours.
+
 ## Version 2.3
 
 - Share Feeds (context menu)
