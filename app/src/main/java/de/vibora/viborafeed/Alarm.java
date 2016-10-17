@@ -140,9 +140,7 @@ public class Alarm extends BroadcastReceiver {
                 refreshInterval + mod,
                 pi
         );
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Log.d(ViboraApp.TAG, "Alarm started. " + Long.toString(am.getNextAlarmClock().getTriggerTime()));
-        }
+        Log.d(ViboraApp.TAG, "Alarm started.");
     }
 
     /**
@@ -155,9 +153,7 @@ public class Alarm extends BroadcastReceiver {
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         am.cancel(pi);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Log.d(ViboraApp.TAG, "Alarm stopped. " + Long.toString(am.getNextAlarmClock().getTriggerTime()));
-        }
+        Log.d(ViboraApp.TAG, "Alarm stopped.");
     }
 
     /**
