@@ -292,19 +292,19 @@ public class Refresher {
                 String dateStr = FeedContract.extract(n, "pubDate");
                 Date date = FeedContract.rawToDate(dateStr);
                 for (String bl: blacklist) {
-                    Log.d(ViboraApp.TAG, "Check Blacklist: " + bl);
+                    Log.v(ViboraApp.TAG, "Check Blacklist: " + bl);
                     if (body.contains(bl)) {
-                        Log.d(ViboraApp.TAG, "in body");
+                        Log.v(ViboraApp.TAG, "in body");
                         continue feediter;
                     }
                     if (title.contains(bl)) {
-                        Log.d(ViboraApp.TAG, "in title");
+                        Log.v(ViboraApp.TAG, "in title");
                         continue feediter;
                     }
                 }
-                Log.d(ViboraApp.TAG, "is fresh?");
+                Log.v(ViboraApp.TAG, "is realy fresh?");
                 if (isReallyFresh(date, title, expunge)) {
-                    Log.d(ViboraApp.TAG, "  yes");
+                    Log.v(ViboraApp.TAG, "  yes");
                     ContentValues values = new ContentValues();
                     values.put(FeedContract.Feeds.COLUMN_Title, title);
                     values.put(FeedContract.Feeds.COLUMN_Date, FeedContract.dbFriendlyDate(date));
@@ -325,7 +325,7 @@ public class Refresher {
                         _newFeeds.add(values);
                     }
                 } else {
-                    Log.d(ViboraApp.TAG, "  no");
+                    Log.v(ViboraApp.TAG, "  no");
                 }
             }
 

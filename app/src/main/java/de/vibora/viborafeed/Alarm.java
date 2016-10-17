@@ -27,19 +27,22 @@ public class Alarm extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        final boolean isRetry = intent.getBooleanExtra("isRetry", false);
 
-        AsyncTask<Context, Void, Void> asyncTask = new AsyncTask<Context, Void, Void>() {
+        AsyncTask<Object, Void, Void> asyncTask = new AsyncTask<Object, Void, Void>() {
             @Override
-            protected Void doInBackground(Context... contexts) {
-                Context ctx = contexts[0];
+            protected Void doInBackground(Object... objs) {
+                Context ctx = (Context) objs[0];
+
                 _pref = PreferenceManager.getDefaultSharedPreferences(ctx);
                 Refresher refresher = Refresher.ME(ctx);
 
                 if (refresher.isOnline()) {
-                    if (isRetry) start(ctx);
-                    if (BuildConfig.DEBUG) {
-                        refresher.error("Online again!", "repeating alarm set");
+                    if (_pref.getBoolean("isRetry", false)) {
+                        if (BuildConfig.DEBUG) {
+                            refresher.error("Online again!", "repeating alarm set");
+                        }
+                        Log.d(ViboraApp.TAG, "last retry!");
+                        start(ctx);
                     }
                 } else {
                     if (BuildConfig.DEBUG) {
@@ -102,7 +105,7 @@ public class Alarm extends BroadcastReceiver {
     public void retry(Context context, long sec) {
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent(context, Alarm.class);
-        i.putExtra("isRetry", true);
+        _pref.edit().putBoolean("isRetry", true).apply();
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
         am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + sec * 1000L, pi);
     }
@@ -123,7 +126,7 @@ public class Alarm extends BroadcastReceiver {
 
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent(context, Alarm.class);
-        i.putExtra("isRetry", false);
+        _pref.edit().putBoolean("isRetry", false).apply();
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
 
         long mod = 0;
@@ -133,7 +136,7 @@ public class Alarm extends BroadcastReceiver {
         }
         am.setInexactRepeating(
                 AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                refreshInterval,
+                500L,
                 refreshInterval + mod,
                 pi
         );

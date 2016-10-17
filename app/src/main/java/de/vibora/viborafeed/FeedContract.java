@@ -347,7 +347,7 @@ public class FeedContract {
         paint.setAntiAlias(true);
         paint.setShader(shader);
         rect = new RectF(0.0f, 0.0f, b.getWidth(), b.getHeight());
-        canvas.drawRoundRect(rect, 10f, 10f, paint);
+        canvas.drawRoundRect(rect, ViboraApp.Config.IMG_ROUND, ViboraApp.Config.IMG_ROUND, paint);
 
         return output;
     }

@@ -9,6 +9,12 @@
         android:icon="@android:drawable/ic_menu_search"
         app:showAsAction="ifRoom|collapseActionView"/>
 
+    <group android:checkableBehavior="all">
+        <item
+            android:id="@+id/action_additionalFeed"
+            android:title="@string/rss_url" />
+    </group>
+
     <item
         android:id="@+id/action_delNotifies"
         android:title="@string/delNotifies">
@@ -29,9 +35,4 @@
         android:title="@string/preferences">
     </item>
 
-    <group android:checkableBehavior="all">
-        <item
-            android:id="@+id/action_additionalFeed"
-            android:title="@string/rss_url" />
-    </group>
 </menu>

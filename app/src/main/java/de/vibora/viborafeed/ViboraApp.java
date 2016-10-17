@@ -57,6 +57,7 @@ public class ViboraApp extends Application {
          * sets a static image size to {@value #MAX_IMG_WIDTH}
          */
         public static final int MAX_IMG_WIDTH = 120;
+        public static final float IMG_ROUND = 20f;
         /**
          * sollte eine Verbindung nicht zu sande kommen, wird ein neuer
          * Alarm in {@value #RETRYSEC_AFTER_OFFLINE} sec ausgelöst
@@ -65,6 +66,7 @@ public class ViboraApp extends Application {
     }
 
     public static Alarm alarm = null;
+
     /**
      * So kann der {@link Refresher} erkennen, ob er nur im Hintergrund läuft.
      * Wäre withGui auf true, wird nur eine HeadUp Notifikation gezeigt.
