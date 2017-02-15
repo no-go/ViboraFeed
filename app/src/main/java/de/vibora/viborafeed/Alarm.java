@@ -23,7 +23,6 @@ import java.util.Random;
  * zugreifen.
  */
 public class Alarm extends BroadcastReceiver {
-    private SharedPreferences _pref;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -33,11 +32,11 @@ public class Alarm extends BroadcastReceiver {
             protected Void doInBackground(Object... objs) {
                 Context ctx = (Context) objs[0];
 
-                _pref = PreferenceManager.getDefaultSharedPreferences(ctx);
+                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(ctx);
                 Refresher refresher = Refresher.ME(ctx);
 
                 if (refresher.isOnline()) {
-                    if (_pref.getBoolean("isRetry", false)) {
+                    if (pref.getBoolean("isRetry", false)) {
                         if (BuildConfig.DEBUG) {
                             refresher.error("Online again!", "repeating alarm set");
                         }
@@ -59,7 +58,7 @@ public class Alarm extends BroadcastReceiver {
                 String rssurl1 = ViboraApp.Source1.path;
                 int expunge1 = ViboraApp.Source1.expunge;
 
-                String rssurl2 = _pref.getString("rss_url", ViboraApp.Source2.path);
+                String rssurl2 = pref.getString("rss_url", ViboraApp.Source2.path);
                 int expunge2 = ViboraApp.Source2.expunge;
 
                 refresher._newFeeds.clear();
@@ -103,9 +102,10 @@ public class Alarm extends BroadcastReceiver {
      * @see ViboraApp.Config
      */
     public void retry(Context context, long sec) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent(context, Alarm.class);
-        _pref.edit().putBoolean("isRetry", true).apply();
+        pref.edit().putBoolean("isRetry", true).apply();
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
         am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + sec * 1000L, pi);
     }
@@ -118,15 +118,15 @@ public class Alarm extends BroadcastReceiver {
      * @param context the context
      */
     public void start(Context context) {
-        _pref = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 
         long refreshInterval = Long.parseLong(
-                _pref.getString("rss_sec", ViboraApp.Config.DEFAULT_rsssec)
+                pref.getString("rss_sec", ViboraApp.Config.DEFAULT_rsssec)
         ) * 1000L;
 
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent(context, Alarm.class);
-        _pref.edit().putBoolean("isRetry", false).apply();
+        pref.edit().putBoolean("isRetry", false).apply();
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
 
         long mod = 0;
