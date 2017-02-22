@@ -3,7 +3,8 @@
 ![Logo](app/src/main/res/mipmap-mdpi/ic_launcher.png) ViboraFeed is the Vibora Feed Reader of the http://vibora.de opensource blog homepage.
 The Images in the screenshots are from testing-Feeds.
 
-Optional get a signed APK from here: [ViboraFeed.apk](https://github.com/no-go/ViboraFeed/blob/master/app/app-release.apk?raw=true)
+Get the [ViboraFeed at f-droid](https://f-droid.org/repository/browse/?fdid=de.vibora.viborafeed) or get [Vibora-Feed at google play](https://play.google.com/store/apps/details?id=de.vibora.viborafeed).
+ Optional get a signed APK from here: [ViboraFeed.apk](https://github.com/no-go/ViboraFeed/blob/master/app/app-release.apk?raw=true)
 
 [Flattr This](https://flattr.com/thing/5194982)
 
