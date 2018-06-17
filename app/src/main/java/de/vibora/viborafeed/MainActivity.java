@@ -108,19 +108,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_delFeeds:
                 dbClear.execute(R.id.action_delFeeds);
                 break;
-            case R.id.action_additionalFeed:
-                if (item.isChecked()) {
-                    ViboraApp.showAdditionalFeed = false;
-                    item.setChecked(false);
-                    FeedListFragment fr = (FeedListFragment) getFragmentManager().findFragmentById(R.id.feedlist);
-                    fr.getLoaderManager().restartLoader(0, null, fr);
-                } else {
-                    ViboraApp.showAdditionalFeed = true;
-                    item.setChecked(true);
-                    FeedListFragment fr = (FeedListFragment) getFragmentManager().findFragmentById(R.id.feedlist);
-                    fr.getLoaderManager().restartLoader(0, null, fr);
-                }
-                break;
             default:
                 break;
         }
@@ -157,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
                 ab.setDisplayUseLogoEnabled(true);
                 ab.setLogo(R.mipmap.ic_launcher);
                 ab.setTitle(" " + getString(R.string.app_name));
+                ab.setElevation(0);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -286,7 +274,7 @@ public class MainActivity extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
             Calendar c = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
 
-            // Vibora Feed
+            // Feed, den man selbst einstellt
             Date date = new Date();
             c.setTime(date);
             c.add(Calendar.DAY_OF_MONTH, -1 * ViboraApp.Source1.expunge);
@@ -302,21 +290,6 @@ public class MainActivity extends AppCompatActivity {
                     new String[]{dateStr, Integer.toString(FeedContract.Flag.DELETED), ViboraApp.Source1.number}
             );
 
-            // Feed, den man selbst einstellt
-            date = new Date();
-            c.setTime(date);
-            c.add(Calendar.DAY_OF_MONTH, -1 * ViboraApp.Source2.expunge);
-            date = c.getTime();
-            dateStr = FeedContract.dbFriendlyDate(date);
-
-            where = FeedContract.Feeds.COLUMN_Date + "<? and "
-                    + FeedContract.Feeds.COLUMN_Deleted + "=? and "
-                    + FeedContract.Feeds.COLUMN_Source + "=?";
-            getContentResolver().delete(
-                    FeedContentProvider.CONTENT_URI,
-                    where,
-                    new String[]{dateStr, Integer.toString(FeedContract.Flag.DELETED), ViboraApp.Source2.number}
-            );
             return null;
         }
 

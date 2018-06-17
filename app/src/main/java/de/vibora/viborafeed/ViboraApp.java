@@ -18,7 +18,6 @@ import java.util.Calendar;
  * @author Jochen Peters
  */
 public class ViboraApp extends Application {
-    public static boolean showAdditionalFeed = false;
     public static String query = "";
 
     public static class Source1 {
@@ -29,14 +28,7 @@ public class ViboraApp extends Application {
         public static final int expunge = 90;
         public static final String number = "1";
         public static final int id = 1;
-        public static final String path = "http://vibora.de/feed/";
-    }
-
-    public static class Source2 {
-        public static final int expunge = 3;
-        public static final String number = "2";
-        public static final int id = 2;
-        public static final String path = "";
+        public static final String path = "https://opensource.com/feed";
     }
 
     public static class Config {
@@ -82,6 +74,9 @@ public class ViboraApp extends Application {
         contextOfApplication = getApplicationContext();
 
         SharedPreferences mPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        if (!mPreferences.contains("rss_url")) {
+            mPreferences.edit().putString("rss_url", Source1.path).commit();
+        }
         if (!mPreferences.contains("nightmode_use_start")) {
             mPreferences.edit().putInt("nightmode_use_start", Config.DEFAULT_NIGHT_START).commit();
         }

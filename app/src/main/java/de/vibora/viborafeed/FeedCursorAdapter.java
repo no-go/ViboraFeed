@@ -81,14 +81,9 @@ public class FeedCursorAdapter extends CursorAdapter {
         if (bmp != null) {
             iv.setPadding(20, 30, 10, 0);
         } else {
-            if (source == ViboraApp.Source1.id) {
-                iv.setImageBitmap(largeIcon);
-                iv.setPadding(20, 30, 10, 0);
-            } else {
-                iv.setPadding( 0, 0, 0, 0);
-                tt.setPadding(20, 10,  5, 0);
-                tb.setPadding(20,  0, 10, 0);
-            }
+            iv.setPadding( 0, 0, 0, 0);
+            tt.setPadding(20, 10,  5, 0);
+            tb.setPadding(20,  0, 10, 0);
         }
         int hasFlag = cursor.getInt(cursor.getColumnIndexOrThrow(FeedContract.Feeds.COLUMN_Flag));
         if (hasFlag == FeedContract.Flag.READED) {

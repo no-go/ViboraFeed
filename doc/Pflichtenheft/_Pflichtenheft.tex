@@ -1,0 +1,116 @@
+\renewcommand{\familydefault}{cmss}
+
+\definecolor{fgcgray}{rgb}{0.4, 0.4, 0.4}
+\definecolor{warning}{rgb}{0.9, 0.1, 0.0}
+\definecolor{bgctitle}{rgb}{0.5, 0.5, 0.5}
+\definecolor{fgctitle}{rgb}{0.95, 0.95, 0.95}
+\newcommand{\titlefont}[1]{\textcolor{fgctitle}{\fontfamily{cmss}\fontseries{bx}\fontshape{n}\fontsize{20.48}{0pt} \selectfont #1}}
+\newcommand{\inversetitlefont}[1]{\textcolor{bgctitle}{\fontfamily{cmss}\fontseries{bx}\fontshape{n}\fontsize{20.48}{0pt} \selectfont #1}}
+
+\addtolength{\oddsidemargin}{-1.0cm}
+\addtolength{\evensidemargin}{-1.0cm}
+\addtolength{\headwidth}{2.0cm}
+\addtolength{\textwidth}{2.0cm}
+
+\setlength{\parindent}{0cm}
+
+\renewcommand{\labelitemi}{$\circ$}
+\renewcommand{\labelitemii}{$\diamond$}
+
+\newcommand{\spaceline}[1][8pt]{\vskip #1}
+\newcommand{\comment}[1]{\spaceline[5pt] \textcolor{fgcgray}{\scriptsize #1} \spaceline[15pt]}
+\newcommand{\attrname}[1]{\textcolor{fgcgray}{\scriptsize #1}}
+
+
+\makeatletter
+
+\newcommand*{\project}[1]{\gdef\@project{#1}}
+\newcommand*{\version}[1]{\gdef\@version{#1}}
+\newcommand*{\home}[1]{\gdef\@home{#1}}
+\newcommand*{\homeref}[1]{\gdef\@homeref{#1}}
+\newcommand*{\prerequisite}[1]{\gdef\@prerequisite{#1}}
+\newcommand*{\prerequisiteref}[1]{\gdef\@prerequisiteref{#1}}
+
+\def\@maketitle{
+  %\begin{titlepage}
+  \begin{center}
+    \colorbox{bgctitle}{
+      \parbox{\textwidth}{
+        \spaceline
+        \centering{\titlefont{\@title}}
+        \par
+        \spaceline
+      }
+    }
+    \colorbox{white}{
+      \parbox{\textwidth}{
+        \spaceline
+        \centering{\inversetitlefont{\@project}}
+        \par
+        \spaceline
+      }
+    }
+  \end{center}
+  \spaceline[1.5em] {
+    \begin{flushright}
+    \begin{tabular}[t]{rl}
+      \attrname{Projekt:} & \@project ~ \@version \\
+      \attrname{Voraussetzung:} & \@prerequisite \\
+      \attrname{Autor:} & \@author \\
+      \attrname{Home:} & \href{\@homeref}{\@home} \\
+      \attrname{letzte "Anderung:} & \@date
+    \end{tabular}
+    \end{flushright}
+    \par
+  }
+  \spaceline[5.5em]
+  %\end{titlepage}
+}
+
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+	 
+\newcounter{subsubsubsection}[subsubsection]
+\def\subsubsubsectionmark#1{}
+\def\thesubsubsubsection{\thesubsubsection .\arabic{subsubsubsection}}
+\def\subsubsubsection{\@startsection{subsubsubsection}{4}{\z@}{-3.25ex plus -1 ex minus -.2ex}{1.5ex plus .2ex}{\normalsize\bf}}
+\def\l@subsubsubsection{\@dottedtocline{4}{4.8em}{4.2em}}
+
+\makeatother
+
+\newcommand{\xheight}{0.6}
+\newcommand{\xlength}{0.6}
+\newcommand{\yheighta}{1.0}
+\newcommand{\yheightb}{0.8}
+\newcommand{\yheightc}{0.6}
+\newcommand{\yheightd}{0.5}
+\newcommand{\yheighte}{0.4}
+\newcommand{\yheightf}{0.35}
+
+\newcommand{\xhline}{\rlvec({\xlength} 0)}
+\newcommand{\xharrow}{\ravec(0.7 0)}
+\newcommand{\xnext}{%\rlvec(0.05 0) \lpatt(0.04 0.04) \rlvec(0.15 0) \lpatt()
+}
+
+\newcommand{\xtext}[3][\xheight]{
+  \bsegment
+    \bsegment
+      \setsegscale 0.5
+      \textref h:L v:C  \htext({\xheight} -0.1){#3}
+    \esegment
+    \setsegscale 0.5 \lvec(0 #1)
+    \setsegscale 1
+    \rlvec(#2 0) \rlvec(0 -#1) \rlvec(-#2 0) \lvec(0 0)
+    \savepos(#2 0)(*@x *@y)
+  \esegment
+  \move(*@x *@y)
+}
+
+\newcommand{\bxtext}[3][\xheight]{
+  \setgray{0.1}
+  \linewd{0.026}
+  \xtext[\xheight]{#2}{#3}
+  \linewd{0.01}
+  \setgray{0.5}
+}
+

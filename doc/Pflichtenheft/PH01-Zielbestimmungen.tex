@@ -1,0 +1,73 @@
+\section{Zielbestimmungen}
+\label{sec:zielbestimmungen}
+
+\textit{Vibora.de - die App} ist ein RSS-Feed Reader für aktuelle Android-Geräte,
+der die RSS-Feeds von der Webseite Vibora.de darstellt. Sobald ein neuer
+Feed veröffentlicht wird, wird dies ein Nachrichten-Dienst von \textit{Vibora.de - die App}
+erkennen und eine Nachricht dem Benutzer gezeigt.
+
+\subsection{Musskriterien}
+
+\begin{itemize}
+  \item Feed-Liste
+    \begin{itemize}
+      \item Neue Feeds werden oben in der Liste gezeigt.
+      \item Ein Feed zeigt Titel, Datum, Teaser-Text und Link an.
+      \item Die Feeds werden als Liste dargestellt.
+      \item Der Benutzer kann Feeds aus der Liste löschen.
+    \end{itemize}
+  \item Nachricht
+    \begin{itemize}
+      \item Der Nachrichten-Dienst erzeugt eine Nachricht.
+      \item Die Nachricht besteht aus: App-Icon, Titel des Feeds und dem
+      Teaser-Text.
+      \item Ein Klick auf die Nachricht löscht diese und öffnet die App.
+    \end{itemize}
+  \item Optionen
+    \begin{itemize}
+      \item Der Benutzer kann angeben, in welchem Intervall der 
+      Nachrichten-Dienst nach neuen Feeds schaut.
+      \item Der Nachrichten-Dienst ist ein- und ausschaltbar.
+      \item Eine Benachrichtigungs-Farbe kann eingestellt werden.
+    \end{itemize}
+  \item Sonstiges
+    \begin{itemize}
+      \item In der ActionBar muss das Launcher-Icon und ein
+      Icon für die \textit{Optionen} sein.
+      \item Zu den wichtigsten Methoden sollen Unit-Tests erstellt sein.
+      \item Ein StrictMode-Test muss fehlerfrei laufen.
+      \item SharedPreferences und PreferenceFragment muss genutzt werden.
+      \item Ein Dialog fragt den Benutzer, falls die App
+      mit der \textit{Zurück-Taste} beendet wird.
+      \item Die App ist kostenlos, OpenSource mit BSD-2 Lizenz.
+      \item Der Code muss mit JavaDoc dokumentiert sein.
+      \item Zu Testzwecken kann in den Einstellungen auch eine andere
+      RSS-Feed URL angegeben werden.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Wunschkriterien}
+
+\begin{itemize}
+  \item Beim Ersten Start der App wird der Benutzer gefragt, ob beim
+  Starten des Handys ein Nachrichten-Dienst gestartet werden soll.
+  \item Das Starten des Nachrichten-Dienstes beim Starten des Handys 
+  ist ein- und ausschaltbar.
+  \item Der Benutzer kann die App umschalten auf Deutsch, Englisch.
+  \item Der Benutzer kann einzelne Feeds als Favoriten abspeichern.
+  \item Der Benutzer hat die Wahl zwischen einem hellen und einem 
+  dunklen Layout.
+  \item Die App erscheint im F-Droid Store.
+\end{itemize}
+
+\subsection{Abgrenzungskriterien}
+
+\begin{itemize}
+  \item Ein Login oder ähnliches um z.B. auf den RSS-Feed zu greifen 
+  zu können, ist nicht nötig.
+  \item Andere XML oder RSS-Feed Formate, als der von Vibora.de 
+  (RSS 2.0) müssen nicht unterstützt werden.
+  \item Die Darstellung der Feeds in der App sind nur textual.
+  \item Die App wird nicht im Amazone oder Google-Play Store erscheinen
+  Store veröffentlicht.
+\end{itemize}

@@ -1,0 +1,117 @@
+\documentclass{beamer}
+\usepackage[T1]{fontenc} % utf8
+\usepackage[utf8]{inputenc} % utf8
+\usepackage[german]{babel} % deutsche silbentrennung
+\usepackage{graphicx}
+\usepackage{color,xcolor,colortbl}
+\usepackage{picture}
+
+\definecolor{pblue}{rgb}{0.13,0.13,1}
+\definecolor{pgreen}{rgb}{0,0.5,0}
+\definecolor{pred}{rgb}{0.9,0,0}
+\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+
+\usepackage{listings}
+\lstset{language=Java,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  basicstyle=\ttfamily,
+  keywordsprefix={@},
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%}
+}
+
+\usepackage{svg}
+\usepackage{datetime}
+\definecolor{hsnrDark}{rgb}{0, 0.27, 0.58}
+\definecolor{hsnrLight}{rgb}{0, 0.61, 0.87}
+\definecolor{hsnrGray}{rgb}{0.4, 0.4, 0.4}
+\definecolor{hsnrLightgray}{rgb}{0.85, 0.85, 0.85}
+
+\setbeamercolor{section in toc}{fg=hsnrDark}
+\setbeamercolor{subsection in toc}{fg=hsnrGray}
+
+\beamertemplatenavigationsymbolsempty
+
+\mode<presentation>
+{
+	\usetheme{Boadilla}
+	\setbeamercolor{frametitle}{fg=white,bg=hsnrDark}
+	\setbeamerfont{frametitle}{series=\bfseries}
+	\setbeamercolor{title}{bg=white,fg=hsnrDark}
+	\setbeamercolor{institute}{fg=hsnrGray}
+	\setbeamercolor{subtitle}{bg=white,fg=hsnrLight}
+	\setbeamertemplate{title page}[default][colsep=-4bp,rounded=true]
+	\setbeamercolor{title in head/foot}{fg=hsnrDark,bg=white}
+	\setbeamercolor{page in head/foot}{fg=black,bg=white}
+	\setbeamercolor{section in head/foot}{fg=hsnrLight,bg=white}
+
+	\setbeamertemplate{sections/subsections in toc}[square]
+	\setbeamercolor{section number projected}{bg=hsnrDark,fg=white}
+	\setbeamercolor{subsection number projected}{bg=hsnrLight,fg=white}
+	\setbeamerfont{section number projected}{series=\bfseries}
+	
+	\setbeamertemplate{itemize items}[square]
+	\setbeamercolor{itemize item}{bg=white,fg=hsnrLight}
+	
+	\setbeamercolor{description item}{bg=white,fg=hsnrLight}
+}
+
+\makeatletter
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.25ex,dp=1ex,left]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\hspace{10ex}\insertsection
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.3\paperwidth,ht=2.25ex,dp=1ex,left]{section in head/foot}%
+    \usebeamerfont{section in head/foot}\insertauthor\\
+    
+    \insertsubtitle %\today%, \currenttime
+  \end{beamercolorbox}
+  \begin{beamercolorbox}[wd=.2\paperwidth,ht=2.25ex,dp=1ex,right]{page in head/foot}%
+    \usebeamerfont{page in head/foot}
+    \insertframenumber{} / \inserttotalframenumber\hspace{10ex} 
+  \end{beamercolorbox}
+  }%
+  \vskip0pt%
+}
+
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+\else\Gin@nat@width\fi}
+
+\usepackage{german}
+\usepackage{amsmath}
+	
+% ===================================================================
+\title{Android Programmierung:\\ Andre Ippisch, Raphael Bialon}
+\subtitle{Vibora Feed - Die App zur Webseite}
+\author{Jochen Peters}
+\institute{Heinrich-Heine-Universität Düsseldorf\\ Informatik MA - SS 2016}
+\date{August 2016}
+
+\begin{document} % ==================================================
+
+	\begin{frame}
+		\titlepage
+	\end{frame}
+
+	\begin{frame}{Inhalt}
+		\tableofcontents
+	\end{frame}
+
+	\makeatother
+	\let\Oldincludegraphics\includegraphics
+	\renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=\maxwidth]{#1}}
+
+\input{Readme.tex}
+
+\end{document} % ==================================================

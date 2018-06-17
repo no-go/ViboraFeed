@@ -55,19 +55,15 @@ public class Alarm extends BroadcastReceiver {
                     return null;
                 }
 
-                String rssurl1 = ViboraApp.Source1.path;
-                int expunge1 = ViboraApp.Source1.expunge;
-
-                String rssurl2 = pref.getString("rss_url", ViboraApp.Source2.path);
-                int expunge2 = ViboraApp.Source2.expunge;
+                String rssurl = pref.getString("rss_url", ViboraApp.Source1.path);
+                int expunge = ViboraApp.Source1.expunge;
 
                 refresher._newFeeds.clear();
-                Document doc = refresher.getDoc(rssurl1, expunge1);
-                refresher.insertToDb(doc, expunge1, ViboraApp.Source1.id);
+                Document doc = null;
 
-                if (!rssurl2.equals("")) {
-                    doc = refresher.getDoc(rssurl2, expunge2);
-                    refresher.insertToDb(doc, expunge2, ViboraApp.Source2.id);
+                if (!rssurl.equals("")) {
+                    doc = refresher.getDoc(rssurl, expunge);
+                    refresher.insertToDb(doc, expunge, ViboraApp.Source1.id);
                 }
                 refresher.sortFeeds();
                 if (refresher._newFeeds.size() > 0) {
